@@ -11,7 +11,7 @@ role and the information extracted into the repository documentation.
 - **Dates Aug 2026.pdf** — academic submission and presentation dates. See
   [`milestones.md`](milestones.md).
 
-## Core readings
+## Core research systems
 
 ### AutoDCWorkflow
 
@@ -40,6 +40,24 @@ role and the information extracted into the repository documentation.
 - Relevance: error detection, imputation, schema matching, entity matching,
   explanations, and preprocessing evaluation tasks.
 
+### CleanAgent
+
+*Automating Data Standardization with LLM-based Agents*
+
+- Paper: <https://arxiv.org/abs/2403.08291>
+- Code: <https://github.com/sfu-db/CleanAgent>
+- Relevance: controlled data-standardisation tools rather than unrestricted
+  code generation; useful for the allow-listed deterministic-tool model.
+- Citation note: verify the final publication metadata before citing.
+
+### DataFlow-Harness
+
+*A Grounded Code-Agent Platform for Constructing Editable LLM Data Pipelines*
+
+- Paper: <https://arxiv.org/abs/2607.16617>
+- Code: <https://github.com/OpenDCAI/DataFlow-WebUI>
+- Relevance: explicit, editable, and traceable data-processing pipelines.
+
 ## Dataset and tooling references
 
 - OC20: <https://fair-chem.github.io/oc20/>;
@@ -52,6 +70,7 @@ role and the information extracted into the repository documentation.
   paper: <https://www.nature.com/articles/s41524-023-01121-5>
 - OC20NEB: <https://fair-chem.github.io/oc20neb/>;
   paper: <https://arxiv.org/abs/2405.02078>
+- ASE paper: <https://doi.org/10.1088/1361-648X/aa680e>
 - ASE documentation: <https://docs.ase-lib.org/>
 - FAIR-Chem documentation: <https://fair-chem.github.io/>
 - FAIR-Chem code: <https://github.com/facebookresearch/fairchem>
