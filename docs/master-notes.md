@@ -22,6 +22,7 @@ destructive actions require human confirmation.
 | [Project brief](design/project-brief.md) | Goal, objectives, deliverables, learning outcomes, research questions, and contribution framing. | Scope or project commitments change. |
 | [Requirements](design/requirements.md) | Background, functional/non-functional requirements, safety constraints, and baseline non-goals. | A requirement is accepted, deferred, or clarified. |
 | [Architecture](design/architecture.md) | Staged workflow, proposed roles, shared state, tool registry, approvals, provenance, and future architecture options. | A design decision or interface changes. |
+| [OC20 data understanding](design/oc20-data-understanding.md) | Observed OC20 200K structure, mappings, viewing workflow, profiler evidence contract, and limitations. | A dataset inspection finding or supported OC20 input changes. |
 | [Technology decisions](design/technology-decisions.md) | Adopted technologies, conditional integrations, and decision records. | A dependency is introduced, deferred, or rejected. |
 | [Literature review](design/literature-review.md) | Reading summary, research gap, and claim-verification notes. | A source is read or cited. |
 | [Evaluation plan](design/evaluation-plan.md) | Evaluation questions, datasets, scenarios, measures, rubric, and reporting rules. | An experiment is planned or revised. |
