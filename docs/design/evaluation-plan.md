@@ -35,6 +35,20 @@ scientific outcome.
 
 Only add a full dataset family when a small documented subset and a clear scenario justify the cost. Record omitted scenarios and their reason.
 
+## Baseline evidence status
+
+The OC20 deterministic-profiler baseline now has reviewed synthetic fixtures
+covering valid discovery, missing or duplicate counterparts, row-count
+mismatches, malformed structures, unauthorised pickles, mapping-key outcomes,
+and a stable golden-profile summary. A repeat-run test compares normalised JSON
+for the same fixture. Runtime is measured separately on the local 200K subset;
+it is descriptive local evidence, not a cross-machine benchmark.
+
+The composed-profile golden summary also asserts that unit conventions are
+explicitly unresolved until a field-specific authoritative source is recorded.
+Trusted metadata-present/absent and clean-slab-relationship-absent scenarios
+preserve raw anomaly codes or explicit absence without fabricating values.
+
 ## Explanation-quality rubric
 
 | Criterion | Pass condition |

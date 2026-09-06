@@ -113,3 +113,37 @@ Use this log to retain the evidence needed for the interim report, final report,
 
 - Implement deterministic discovery and numeric shard-pair validation with
   tests based on small reviewed synthetic fixtures.
+
+## 2026-09-05 — Deterministic OC20 profiler baseline evaluation
+
+### Goal
+
+- Establish reproducible correctness and local runtime evidence for the
+  discovery-to-profile baseline before transformations or agent workflow work.
+
+### Work completed
+
+- Added deterministic discovery, paired-shard inspection, lexical schema,
+  sampled consistency, opt-in mapping checks, bounded trusted metadata
+  profiling, and serialisable composed-profile evidence.
+- Kept every unit convention unresolved until it has a field-specific
+  authoritative source; no unit is inferred from raw values.
+- Changed multi-sample consistency to stream each shard once and reuse trusted
+  mapping loads within a single profile operation.
+
+### Evidence
+
+- Fixture coverage: valid and invalid numeric pairs, malformed structures,
+  row-count mismatches, schema consistency, mapping-key outcomes, and a
+  path-independent golden profile summary.
+- Reproducibility: the same synthetic fixture yields identical normalised JSON
+  on repeated profile runs.
+- Command/result: `uv run ruff check && uv run pytest` — 23 passed on Python
+  3.12.14.
+- Local timing, S2EF 200K shard `0` (single run; descriptive only): discovery
+  0.0049 s; one-pair inspection 0.8678 s; three-sample consistency 0.8618 s.
+
+### Limitations
+
+- Timings are not a cross-machine benchmark and do not include trusted pickle
+  deserialisation, full-shard schema profiling, or transformations.

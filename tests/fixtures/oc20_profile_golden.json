@@ -1,0 +1,11 @@
+{
+  "selected_numeric_stem": 0,
+  "valid_shard_pair_count": 1,
+  "structure_record_count": 1,
+  "sidecar_row_count": 1,
+  "row_counts_match": true,
+  "atom_properties": ["species"],
+  "sidecar_fields": ["system_id", "frame_number", "reference_energy"],
+  "issues": ["ambiguous_mapping_files"],
+  "unit_evidence_status": ["unresolved", "unresolved", "unresolved", "unresolved"]
+}
