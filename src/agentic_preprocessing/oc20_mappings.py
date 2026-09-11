@@ -157,7 +157,16 @@ def _sample_system_id(
             )
         )
         return None
-    return inspection.sidecar_sample.fields[0]
+    system_id = inspection.sidecar_sample.fields[0].strip()
+    if not system_id:
+        issues.append(
+            InspectionIssue(
+                "missing_system_id",
+                "The selected sidecar row has no non-empty system ID to validate.",
+            )
+        )
+        return None
+    return system_id
 
 
 def _load_mapping(
@@ -172,6 +181,8 @@ def _load_mapping(
         ImportError,
         OSError,
         pickle.UnpicklingError,
+        TypeError,
+        ValueError,
     ) as error:
         issues.append(
             InspectionIssue(

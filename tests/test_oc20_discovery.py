@@ -70,3 +70,19 @@ def test_discover_oc20_reports_missing_and_duplicate_counterparts(
 def test_discover_oc20_requires_an_existing_directory(tmp_path: Path) -> None:
     with pytest.raises(ValueError, match="not a directory"):
         discover_oc20(tmp_path / "missing")
+
+
+def test_discover_oc20_ignores_symlinked_files_outside_dataset_root(
+    tmp_path: Path,
+) -> None:
+    outside_structure = tmp_path.parent / f"{tmp_path.name}-outside.extxyz.xz"
+    outside_structure.touch()
+    (tmp_path / "0.extxyz.xz").symlink_to(outside_structure)
+    touch(tmp_path, "0.txt.xz")
+
+    result = discover_oc20(tmp_path)
+
+    assert result.ignored_symlink_files == ("0.extxyz.xz",)
+    assert result.structure_shards == ()
+    assert result.valid_shard_pair_count == 0
+    assert result.to_dict()["ignored_symlink_files"] == ["0.extxyz.xz"]

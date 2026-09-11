@@ -17,11 +17,11 @@ LangGraph, or agent orchestration.
 
 | Phase 1 workstream | Evidence and oracle | Observed outcome | Boundary retained |
 | --- | --- | --- | --- |
-| Discovery and numeric pairing | `tests/test_oc20_discovery.py`; local acceptance command | Synthetic fixtures cover valid, missing, and duplicate counterparts. The local summary found 40 valid numeric pairs and no issue codes. | The result inventories the local subset only; it does not assert coverage of validation/OOD splits or other OC20 releases. |
-| Bounded record inspection and schema evidence | `tests/test_oc20_inspection.py`, `tests/test_oc20_schema.py`, and `tests/test_oc20_profile.py`; fixed local samples `0`, `1`, and `2` | Fixtures cover matched counts, mismatches, malformed sidecars, truncated structures, lexical schema evidence, and a stable composed profile. The local run found all three structure and sidecar samples. | Fixed samples do not prove schema uniformity across every record or shard. |
+| Discovery and numeric pairing | `tests/test_oc20_discovery.py`; local acceptance command | Synthetic fixtures cover valid, missing, duplicate, and symlinked counterparts. The local summary found 40 valid numeric pairs and surfaced the disabled-pickle policy explicitly. | The result inventories the local subset only; it does not assert coverage of validation/OOD splits or other OC20 releases. |
+| Bounded record inspection and schema evidence | `tests/test_oc20_inspection.py`, `tests/test_oc20_schema.py`, and `tests/test_oc20_profile.py`; fixed local samples `0`, `1`, and `2` | Fixtures cover matched counts, mismatches, malformed sidecars, truncated structures, atom-row/property mismatches, lexical schema evidence, and a stable composed profile. The local run found all three structure and sidecar samples. | Fixed samples do not prove schema uniformity across every record or shard. |
 | Scientific metadata and units | `tests/test_oc20_mappings.py` and unit-evidence profile tests | Mapping access requires explicit pickle trust; serialised unit evidence remains unresolved without field-specific authoritative documentation. | The acceptance command disables pickle loading and makes no trusted-metadata, mapping-value, or inferred-unit claim. |
 | Relationships and risk evidence | `tests/test_oc20_risks.py` and `tests/test_oc20_sequence_risks.py` | Synthetic scenarios deterministically identify cross-split group risks and duplicate/non-monotonic positions only when callers supply explicit group and order semantics. | No clean-slab ID is inferred to be a leakage group, and no S2EF record is treated as an OC20NEB sequence. OC20Dense alignment remains out of scope. |
-| Reporting and reproducibility | `tests/test_oc20_acceptance.py`; repeated local JSON acceptance run compared with `cmp` | Two identical runs produced byte-identical JSON. The concise summary contained aggregate counts, mapping policy, unit status, issue codes, and fixed-sample counts without raw source values. | The 0.892-second run is descriptive local evidence, not a cross-machine performance benchmark. |
+| Reporting and reproducibility | `tests/test_oc20_acceptance.py`; repeated local JSON acceptance run compared with `cmp` | Two identical runs produced byte-identical JSON. The concise summary contained aggregate counts, mapping policy, unit status, issue codes, and fixed-sample counts without raw source values. | The 0.960-second run is descriptive local evidence, not a cross-machine performance benchmark. It makes two full scans of the selected shard. |
 
 ## Read-only local acceptance configuration
 
@@ -38,10 +38,12 @@ uv run python -m agentic_preprocessing.oc20_acceptance \
   --format summary
 ```
 
-The command reported 40 valid shard pairs, no issue codes, disabled mapping
-pickle loading, unresolved unit evidence, and structures and sidecars present
-for all three fixed consistency samples. Two JSON runs with the same arguments
-were byte-identical. Generated reports were retained only in `/private/tmp`.
+The command reported 40 valid shard pairs, disabled mapping pickle loading,
+unresolved unit evidence, and structures and sidecars present for all three
+fixed consistency samples. It reported `pickle_load_not_authorized` as
+expected policy evidence rather than suppressing it as a false issue-free
+result. Two JSON runs with the same arguments were byte-identical. Generated
+reports were retained only in `/private/tmp`.
 
 ## Remaining limitations and follow-up gate
 

@@ -76,6 +76,7 @@ class Oc20Discovery:
     sidecar_shards: tuple[str, ...]
     metadata_mapping_files: tuple[str, ...]
     clean_slab_mapping_files: tuple[str, ...]
+    ignored_symlink_files: tuple[str, ...]
     shard_pairs: tuple[ShardPair, ...]
 
     @property
@@ -96,6 +97,7 @@ class Oc20Discovery:
                 "oc20_data_mapping": list(self.metadata_mapping_files),
                 "mapping_adslab_slab": list(self.clean_slab_mapping_files),
             },
+            "ignored_symlink_files": list(self.ignored_symlink_files),
             "shard_pairs": [pair.to_dict() for pair in self.shard_pairs],
             "valid_shard_pair_count": self.valid_shard_pair_count,
         }
@@ -118,8 +120,12 @@ def discover_oc20(dataset_root: str | Path) -> Oc20Discovery:
     sidecars_by_stem: dict[int, list[Path]] = {}
     metadata_mappings: list[Path] = []
     clean_slab_mappings: list[Path] = []
+    ignored_symlinks: list[Path] = []
 
     for path in root.rglob("*"):
+        if path.is_symlink():
+            ignored_symlinks.append(path)
+            continue
         if not path.is_file():
             continue
 
@@ -164,5 +170,6 @@ def discover_oc20(dataset_root: str | Path) -> Oc20Discovery:
         ),
         metadata_mapping_files=relative_paths(metadata_mappings),
         clean_slab_mapping_files=relative_paths(clean_slab_mappings),
+        ignored_symlink_files=relative_paths(ignored_symlinks),
         shard_pairs=shard_pairs,
     )

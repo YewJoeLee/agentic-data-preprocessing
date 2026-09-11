@@ -113,6 +113,10 @@ def profile_oc20_dataset(
             root / discovery.metadata_mapping_files[0],
             metadata_mapping=trusted_mappings.metadata_mapping,
         )
+    issues.extend(inspection.issues)
+    issues.extend(sample_schema.issues)
+    if mapping_validation is not None:
+        issues.extend(mapping_validation.issues)
     return Oc20Profile(
         discovery=discovery,
         selected_numeric_stem=selected_pair.numeric_stem,
@@ -120,7 +124,7 @@ def profile_oc20_dataset(
         sample_schema=sample_schema,
         mapping_validation=mapping_validation,
         metadata_record_profile=metadata_record_profile,
-        issues=tuple(issues),
+        issues=_deduplicate_issues(issues),
     )
 
 
@@ -195,3 +199,11 @@ def _validate_mappings(
         allow_pickle_load=allow_pickle_load,
         trusted_mappings=trusted_mappings,
     ), trusted_mappings
+
+
+def _deduplicate_issues(
+    issues: list[InspectionIssue],
+) -> tuple[InspectionIssue, ...]:
+    """Return deterministic profile-wide issue evidence without duplicates."""
+
+    return tuple(sorted(set(issues), key=lambda issue: (issue.code, issue.message)))

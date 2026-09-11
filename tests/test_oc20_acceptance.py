@@ -56,6 +56,20 @@ def test_summary_reports_evidence_without_raw_values_or_invented_units(
     assert "-1.0" not in summary
 
 
+def test_summary_includes_selected_pair_integrity_issues(tmp_path: Path) -> None:
+    write_xz(
+        tmp_path / "0.extxyz.xz",
+        "0\nProperties=species:S:1\n0\nProperties=species:S:1\n",
+    )
+    write_xz(tmp_path / "0.txt.xz", "system-1,0,-1.0\n")
+
+    summary = format_oc20_acceptance_summary(
+        evaluate_oc20_acceptance(tmp_path, consistency_indices=(0,))
+    )
+
+    assert "row_count_mismatch" in summary
+
+
 def test_acceptance_preserves_no_valid_pair_evidence(tmp_path: Path) -> None:
     write_xz(tmp_path / "0.extxyz.xz", "0\nProperties=species:S:1\n")
 
@@ -63,6 +77,13 @@ def test_acceptance_preserves_no_valid_pair_evidence(tmp_path: Path) -> None:
 
     assert result.sample_consistency is None
     assert [issue.code for issue in result.profile.issues] == ["no_valid_shard_pair"]
+
+
+def test_acceptance_rejects_invalid_consistency_indices_without_a_valid_pair(
+    tmp_path: Path,
+) -> None:
+    with pytest.raises(ValueError, match="unique, non-negative, and non-empty"):
+        evaluate_oc20_acceptance(tmp_path, consistency_indices=(0, -1))
 
 
 def test_cli_emits_json_to_standard_output(

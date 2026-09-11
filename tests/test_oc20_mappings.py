@@ -7,6 +7,7 @@ import lzma
 import pickle
 from pathlib import Path
 
+import agentic_preprocessing.oc20_mappings as oc20_mappings
 from agentic_preprocessing.oc20_inspection import inspect_oc20_shard_pair
 from agentic_preprocessing.oc20_mappings import validate_oc20_mapping_keys
 
@@ -66,3 +67,50 @@ def test_validate_oc20_mapping_keys_checks_trusted_synthetic_mappings(
     assert result.clean_slab_system_id == "slab99"
     assert result.issues == ()
     json.dumps(result.to_dict())
+
+
+def test_validate_oc20_mapping_keys_treats_blank_system_id_as_missing(
+    tmp_path: Path,
+) -> None:
+    structure_path = tmp_path / "0.extxyz.xz"
+    sidecar_path = tmp_path / "0.txt.xz"
+    write_xz(structure_path, "0\nProperties=species:S:1\n")
+    write_xz(sidecar_path, "   ,frame2,-1.5\n")
+
+    result = validate_oc20_mapping_keys(
+        inspect_oc20_shard_pair(structure_path, sidecar_path),
+        tmp_path / "oc20_data_mapping.pkl",
+        tmp_path / "mapping_adslab_slab.pkl",
+    )
+
+    assert result.system_id is None
+    assert [issue.code for issue in result.issues] == [
+        "missing_system_id",
+        "pickle_load_not_authorized",
+    ]
+
+
+def test_trusted_mapping_load_reports_value_errors_as_evidence(
+    tmp_path: Path, monkeypatch
+) -> None:
+    metadata_path = tmp_path / "oc20_data_mapping.pkl"
+    clean_slab_path = tmp_path / "mapping_adslab_slab.pkl"
+    metadata_path.touch()
+    clean_slab_path.touch()
+
+    def raise_value_error(file):
+        raise ValueError("unsupported pickle payload")
+
+    monkeypatch.setattr(oc20_mappings.pickle, "load", raise_value_error)
+
+    result = validate_oc20_mapping_keys(
+        inspected_sample(tmp_path),
+        metadata_path,
+        clean_slab_path,
+        allow_pickle_load=True,
+    )
+
+    assert [issue.code for issue in result.issues] == [
+        "mapping_load_error",
+        "mapping_load_error",
+    ]

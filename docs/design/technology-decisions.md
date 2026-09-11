@@ -9,7 +9,7 @@ Introduce a dependency only when a working experiment justifies it. Prefer small
 | Area | Choice | Rationale |
 | --- | --- | --- |
 | Language/package layout | Python package with `src/` layout. | Fits deterministic data inspection and existing repository structure. |
-| Environment | Python 3.12.13 is the reference; local OC20 exploration currently uses Homebrew Python 3.12.14 with `uv`. | The patch-version difference is recorded before experiment results are compared. |
+| Environment | Python 3.12.14 with `uv` is the reference environment. | The package retains Python 3.11 compatibility; record any future environment difference before comparing experiments. |
 | Tests | `pytest`. | Supports small fixtures and deterministic golden-output testing. |
 | Numerical data support | NumPy. | OC20's official metadata mapping uses NumPy values and cannot be loaded without it. |
 | Exploration notebook | JupyterLab, ASE, and Matplotlib as development-only tools. | Provide a reproducible, read-only OC20 visual inspection without coupling visualisation to the runtime profiler. |

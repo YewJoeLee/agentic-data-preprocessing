@@ -47,6 +47,14 @@ def evaluate_oc20_acceptance(
     """Collect profile and fixed-sample evidence without modifying OC20 data."""
 
     indices = tuple(consistency_indices)
+    if (
+        not indices
+        or any(index < 0 for index in indices)
+        or len(set(indices)) != len(indices)
+    ):
+        raise ValueError(
+            "consistency_indices must be unique, non-negative, and non-empty"
+        )
     root = Path(dataset_root)
     profile = profile_oc20_dataset(
         root,
@@ -82,10 +90,9 @@ def format_oc20_acceptance_summary(evaluation: Oc20AcceptanceEvaluation) -> str:
 
     profile = evaluation.profile
     consistency = evaluation.sample_consistency
-    issue_codes = sorted(issue.code for issue in profile.issues)
+    issue_codes = {issue.code for issue in profile.issues}
     if consistency is not None:
-        issue_codes.extend(issue.code for issue in consistency.issues)
-        issue_codes.sort()
+        issue_codes.update(issue.code for issue in consistency.issues)
     unit_statuses = sorted(
         {item["status"] for item in profile.to_dict()["unit_evidence"]}
     )
@@ -95,7 +102,7 @@ def format_oc20_acceptance_summary(evaluation: Oc20AcceptanceEvaluation) -> str:
         "Mapping pickle loading: "
         + ("enabled" if evaluation.pickle_loading_authorised else "disabled"),
         "Unit evidence: " + ", ".join(unit_statuses),
-        "Issue codes: " + (", ".join(issue_codes) if issue_codes else "none"),
+        "Issue codes: " + (", ".join(sorted(issue_codes)) if issue_codes else "none"),
     ]
     if consistency is None:
         lines.append("Fixed consistency samples: unavailable")

@@ -48,3 +48,24 @@ def test_profile_oc20_sample_consistency_reports_schema_and_empty_fields_in_one_
     assert result.issues == ()
     assert opened_paths == ["0.extxyz.xz", "0.txt.xz"]
     json.dumps(result.to_dict())
+
+
+def test_consistency_is_unknown_when_any_requested_sample_is_missing(
+    tmp_path: Path,
+) -> None:
+    structure = tmp_path / "0.extxyz.xz"
+    sidecar = tmp_path / "0.txt.xz"
+    write_xz(structure, "0\nProperties=species:S:1\n")
+    write_xz(sidecar, "random1,frame1,-1\n")
+
+    result = profile_oc20_sample_consistency(structure, sidecar, (0, 1))
+
+    assert result.structure_samples_found == 1
+    assert result.sidecar_samples_found == 1
+    assert result.atom_property_schema_consistent is None
+    assert result.header_field_names_consistent is None
+    assert result.sidecar_field_count_consistent is None
+    assert [issue.code for issue in result.issues].count(
+        "missing_structure_sample"
+    ) == 1
+    assert [issue.code for issue in result.issues].count("missing_sidecar_sample") == 1

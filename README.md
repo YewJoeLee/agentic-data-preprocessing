@@ -36,7 +36,7 @@ for local-data guidance.
 
 ## Development
 
-The reference development environment uses Python 3.12.13. The package
+The reference development environment uses Python 3.12.14. The package
 supports Python 3.11 and newer, but new environment differences should be
 recorded before experiments are compared.
 
@@ -66,8 +66,11 @@ uv run python -m agentic_preprocessing.oc20_acceptance \
 ```
 
 The command writes only to standard output and does not load mapping pickles
-unless `--allow-pickle-load` is explicitly supplied. Do not redirect its JSON
-output into the repository; use a temporary location for repeatability checks.
+unless `--allow-pickle-load` is explicitly supplied. It performs one full
+selected-pair integrity scan and one full fixed-sample consistency scan; this
+is bounded to the selected shard, but is not a constant-byte read. Do not
+redirect its JSON output into the repository; use a temporary location for
+repeatability checks.
 
 ## Commit messages
 

@@ -348,3 +348,51 @@ Use this log to retain the evidence needed for the interim report, final report,
 
 - Select and approve the next phase only when it addresses a documented
   evaluation gap; do not infer an execution workflow from this closeout.
+
+## 2026-09-11 — Profiler review safety corrections
+
+### Goal
+
+- Correct the deterministic-profiler safety and reporting defects identified
+  before any formal Phase 2 work.
+
+### Work completed
+
+- Aggregated and deduplicated selected-pair inspection, schema, and
+  mapping-validation issues into profile evidence used by the readiness planner
+  and concise acceptance summary.
+- Blocked readiness planning for structural-integrity failures; made incomplete
+  fixed-sample consistency unknown rather than consistent; rejected symlinked
+  discovery paths; and added blank-ID, malformed-mapping, and atom-row schema
+  validation evidence.
+- Clarified that acceptance makes two complete scans of the selected shard.
+- EDA practices: Discovering, Structuring, Joining, Validating, and Presenting.
+
+### Evidence
+
+- Commit/configuration: the profiler-review fix commit containing this entry;
+  Python 3.12.14; `uv sync --locked`; mapping pickle loading disabled.
+- Input/fixture: reviewed synthetic fixtures plus the local S2EF-200K training
+  subset under `data/raw/`; shard `0`; sample `0`; fixed consistency samples
+  `0`, `1`, and `2`.
+- Test/command/result: focused regression tests were written first and failed
+  against the prior behaviour. The full suite passed with 60 tests. Two JSON
+  acceptance runs compared with `cmp` were byte-identical. The summary reported
+  40 valid pairs, `pickle_load_not_authorized`, unresolved unit evidence, and
+  structures and sidecars present for all three fixed samples in 0.960 seconds.
+- Output/figure/report: JSON comparison outputs remain only in `/private/tmp`;
+  the committed record contains aggregate evidence only.
+
+### Decisions and rationale
+
+- Disabled pickle loading is visible policy evidence, not a data-integrity
+  failure; it does not by itself block a review-only plan.
+- Data-integrity and schema failures block readiness planning. Unknown
+  consistency remains distinct from a positive consistency result.
+
+### Limitations
+
+- Acceptance still performs two complete selected-shard scans. The cost is
+  documented rather than presented as a constant-byte sample operation.
+- The local result remains a bounded spot check and does not establish
+  full-subset uniformity or support for other OC20 tasks.

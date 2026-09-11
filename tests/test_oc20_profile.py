@@ -39,7 +39,7 @@ def test_profile_oc20_dataset_composes_read_only_evidence(tmp_path: Path) -> Non
     assert profile.sample_schema.atom_properties[0].name == "species"
     assert profile.mapping_validation is not None
     assert profile.mapping_validation.pickle_load_attempted is False
-    assert profile.issues == ()
+    assert [issue.code for issue in profile.issues] == ["pickle_load_not_authorized"]
     json.dumps(profile.to_dict())
 
 
@@ -53,6 +53,20 @@ def test_profile_oc20_dataset_reports_when_no_valid_pair_exists(tmp_path: Path) 
     assert profile.sample_schema is None
     assert profile.mapping_validation is None
     assert [issue.code for issue in profile.issues] == ["no_valid_shard_pair"]
+
+
+def test_profile_promotes_selected_pair_integrity_issues(tmp_path: Path) -> None:
+    write_xz(
+        tmp_path / "0.extxyz.xz",
+        "0\nProperties=species:S:1\n0\nProperties=species:S:1\n",
+    )
+    write_xz(tmp_path / "0.txt.xz", "random1,frame2,-1.0\n")
+
+    profile = profile_oc20_dataset(tmp_path)
+
+    assert profile.inspection is not None
+    assert profile.inspection.row_counts_match is False
+    assert "row_count_mismatch" in {issue.code for issue in profile.issues}
 
 
 def test_profile_oc20_dataset_matches_synthetic_golden_summary(tmp_path: Path) -> None:

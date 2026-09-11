@@ -8,6 +8,28 @@ from typing import Any, Literal
 from .oc20_inspection import InspectionIssue
 from .oc20_profile import Oc20Profile
 
+_BLOCKING_PROFILE_ISSUES = frozenset(
+    {
+        "atom_row_property_count_mismatch",
+        "invalid_atom_count",
+        "invalid_properties_declaration",
+        "invalid_property_component_count",
+        "invalid_sidecar_field_count",
+        "mapping_load_error",
+        "missing_system_id",
+        "negative_atom_count",
+        "missing_properties_declaration",
+        "missing_sidecar_sample",
+        "missing_structure_header",
+        "missing_structure_sample",
+        "requested_shard_is_invalid",
+        "row_count_mismatch",
+        "sidecar_read_error",
+        "structure_read_error",
+        "truncated_structure_record",
+    }
+)
+
 
 @dataclass(frozen=True)
 class DownstreamGoal:
@@ -91,10 +113,7 @@ def build_oc20_readiness_plan(
 
     profile_issue_codes = tuple(sorted({issue.code for issue in profile.issues}))
     evidence = _profile_evidence(profile)
-    blockers = {
-        "no_valid_shard_pair",
-        "requested_shard_is_invalid",
-    }
+    blockers = _BLOCKING_PROFILE_ISSUES | {"no_valid_shard_pair"}
     is_blocked = profile.selected_numeric_stem is None or bool(
         blockers.intersection(profile_issue_codes)
     )

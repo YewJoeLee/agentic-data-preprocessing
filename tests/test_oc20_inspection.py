@@ -60,7 +60,7 @@ def test_inspect_oc20_shard_pair_reports_row_count_mismatch(tmp_path: Path) -> N
     assert result.structure_record_count == 2
     assert result.sidecar_row_count == 1
     assert result.row_counts_match is False
-    assert result.issues == ()
+    assert [issue.code for issue in result.issues] == ["row_count_mismatch"]
 
 
 def test_inspect_oc20_shard_pair_reports_invalid_sidecar_fields(tmp_path: Path) -> None:
@@ -75,12 +75,32 @@ def test_inspect_oc20_shard_pair_reports_invalid_sidecar_fields(tmp_path: Path) 
     assert [issue.code for issue in result.issues] == ["invalid_sidecar_field_count"]
 
 
+def test_inspect_oc20_shard_pair_reports_atom_row_property_count_mismatch(
+    tmp_path: Path,
+) -> None:
+    structure_path = tmp_path / "invalid-atoms.extxyz.xz"
+    sidecar_path = tmp_path / "invalid-atoms.txt.xz"
+    write_xz(
+        structure_path,
+        "1\nProperties=species:S:1:pos:R:3\nH 0.0 0.0\n",
+    )
+    write_xz(sidecar_path, "random1,frame0,-1.0\n")
+
+    result = inspect_oc20_shard_pair(structure_path, sidecar_path)
+
+    assert result.structure_scan_complete is True
+    assert result.row_counts_match is True
+    assert [issue.code for issue in result.issues] == [
+        "atom_row_property_count_mismatch"
+    ]
+
+
 def test_inspect_oc20_shard_pair_reports_truncated_structure(tmp_path: Path) -> None:
     structure_path = tmp_path / "2.extxyz.xz"
     sidecar_path = tmp_path / "2.txt.xz"
     write_xz(
         structure_path,
-        "2\nProperties=species:S:1\nH 0.0 0.0 0.0\n",
+        "2\nProperties=species:S:1:pos:R:3\nH 0.0 0.0 0.0\n",
     )
     write_xz(sidecar_path, "random1,frame0,-1.0\n")
 

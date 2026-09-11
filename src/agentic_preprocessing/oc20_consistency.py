@@ -107,18 +107,24 @@ def profile_oc20_sample_consistency(
         structure_samples_found=structure_found,
         sidecar_samples_found=sidecar_found,
         atom_property_schema_consistent=_is_consistent(
-            atom_signatures, structure_found
+            atom_signatures, structure_found, len(indices)
         ),
         header_field_names_consistent=_is_consistent(
-            header_signatures, structure_found
+            header_signatures, structure_found, len(indices)
         ),
-        sidecar_field_count_consistent=_is_consistent(field_counts, sidecar_found),
+        sidecar_field_count_consistent=_is_consistent(
+            field_counts, sidecar_found, len(indices)
+        ),
         sidecar_empty_field_counts=empty_counts,
-        issues=tuple(issues),
+        issues=tuple(
+            sorted(set(issues), key=lambda issue: (issue.code, issue.message))
+        ),
     )
 
 
-def _is_consistent(signatures: list[Any], found_count: int) -> bool | None:
-    if found_count == 0:
+def _is_consistent(
+    signatures: list[Any], found_count: int, requested_count: int
+) -> bool | None:
+    if found_count != requested_count:
         return None
     return len(set(signatures)) == 1

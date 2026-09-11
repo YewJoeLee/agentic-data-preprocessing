@@ -60,6 +60,21 @@ def test_planner_blocks_when_profile_has_no_valid_pair(tmp_path: Path) -> None:
     assert [issue.code for issue in plan.issues] == ["profile_not_ready_for_planning"]
 
 
+def test_planner_blocks_when_selected_pair_has_integrity_issue(tmp_path: Path) -> None:
+    write_xz(
+        tmp_path / "0.extxyz.xz",
+        "0\nProperties=species:S:1\n0\nProperties=species:S:1\n",
+    )
+    write_xz(tmp_path / "0.txt.xz", "system-1,frame-1,-1.0\n")
+
+    plan = build_oc20_readiness_plan(
+        profile_oc20_dataset(tmp_path), DownstreamGoal("Prepare data.")
+    )
+
+    assert plan.status == "blocked"
+    assert "profile_issue:row_count_mismatch" in plan.risks
+
+
 def test_planner_rejects_empty_goal(tmp_path: Path) -> None:
     write_xz(tmp_path / "0.extxyz.xz", "0\nProperties=species:S:1\n")
     write_xz(tmp_path / "0.txt.xz", "system-1,frame-1,-1.0\n")

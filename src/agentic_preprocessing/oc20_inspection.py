@@ -145,6 +145,18 @@ def inspect_oc20_shard_pair_samples(
         sidecar_scan_complete,
         sidecar_issues,
     ) = _scan_sidecar(sidecar, set(indices))
+    issues = structure_issues + sidecar_issues
+    if (
+        structure_scan_complete
+        and sidecar_scan_complete
+        and structure_record_count != sidecar_row_count
+    ):
+        issues.append(
+            InspectionIssue(
+                "row_count_mismatch",
+                "Structure-record and sidecar-row counts differ for the selected pair.",
+            )
+        )
 
     return tuple(
         ShardPairInspection(
@@ -157,7 +169,7 @@ def inspect_oc20_shard_pair_samples(
             sidecar_scan_complete=sidecar_scan_complete,
             structure_sample=structure_samples.get(index),
             sidecar_sample=sidecar_samples.get(index),
-            issues=tuple(structure_issues + sidecar_issues),
+            issues=tuple(issues),
         )
         for index in indices
     )
@@ -205,8 +217,10 @@ def _scan_structures(
                     return record_count, samples, False, issues
 
                 header = header_line.rstrip("\n")
+                expected_atom_field_count = _expected_atom_field_count(header)
                 for atom_row_index in range(atom_count):
-                    if not stream.readline():
+                    atom_row = stream.readline()
+                    if not atom_row:
                         issues.append(
                             InspectionIssue(
                                 "truncated_structure_record",
@@ -215,6 +229,19 @@ def _scan_structures(
                             )
                         )
                         return record_count, samples, False, issues
+                    if (
+                        expected_atom_field_count is not None
+                        and len(atom_row.split()) != expected_atom_field_count
+                    ):
+                        issues.append(
+                            InspectionIssue(
+                                "atom_row_property_count_mismatch",
+                                "Structure record "
+                                f"{record_index} atom row {atom_row_index} has "
+                                f"{len(atom_row.split())} fields; expected "
+                                f"{expected_atom_field_count} from Properties.",
+                            )
+                        )
 
                 if record_index in sample_indices:
                     samples[record_index] = StructureSample(
@@ -273,3 +300,21 @@ def _property_names(header: str) -> tuple[str, ...]:
         return ()
     declaration = match["value"].strip('"')
     return tuple(declaration.split(":")[::3])
+
+
+def _expected_atom_field_count(header: str) -> int | None:
+    """Return declared atom-row fields when ``Properties`` is well formed."""
+
+    match = _PROPERTIES_RE.search(header)
+    if match is None:
+        return None
+    components = match["value"].strip('"').split(":")
+    if not components or len(components) % 3 != 0:
+        return None
+    try:
+        counts = [int(value) for value in components[2::3]]
+    except ValueError:
+        return None
+    if any(count < 1 for count in counts):
+        return None
+    return sum(counts)
