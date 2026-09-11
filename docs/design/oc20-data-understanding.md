@@ -263,145 +263,33 @@ print(relationships[system_id])
 The metadata pickle contains NumPy values, so NumPy is a required project
 dependency for this supported OC20 input.
 
-## Initial profiler contract
+## Profiler documentation boundary
 
-The first implementation slice must:
+This note documents the observed OC20 source layout, manual inspection, and
+dataset-specific uncertainty. It deliberately does not duplicate the profiler
+implementation contract or acceptance result.
 
-1. Discover and classify the OC20 README, compressed extended-XYZ shards,
-   compressed sidecar shards, and mappings.
-2. Pair `N.extxyz.xz` with `N.txt.xz` by exact numeric stem and report missing
-   or duplicate counterparts.
-3. Inspect a deterministic, documented sample without modifying raw input.
-4. Verify that each sampled structure has one sidecar row and emit the joined
-   `system_id`, `frame_number`, and `reference_energy` as separate evidence.
-5. Extract the extended-XYZ schema, atom count, cell and periodicity, energy
-   fields, atom-property fields, and constraints.
-6. Join known `system_id` values to mapping metadata and clean-slab
-   relationships, recording missing keys and anomaly flags as warnings.
-7. Produce a serialisable profile that distinguishes observations, documented
-   semantics, and unresolved uncertainty.
+- [README](../../README.md) — installation and the contributor-facing
+  acceptance command.
+- [Phase 1 OC20 acceptance](oc20-profiler-phase-1-acceptance.md) — supported
+  profiler behaviour, oracle, observed result, and retained limitations.
+- [Evaluation plan](evaluation-plan.md) — scenario matrix and correctness,
+  reproducibility, safety, and explanation oracles.
+- [Development log](../development-log.md) — dated commands and observations.
 
-### Implemented slice: discovery and numeric shard-pair validation
-
-`agentic_preprocessing.oc20_discovery.discover_oc20()` implements items 1--2
-as a read-only filesystem scan. Given the local OC20 root, it discovers:
-
-- Markdown README files whose names begin with `README`;
-- files named `N.extxyz.xz` and `N.txt.xz`, grouped by integer `N`; and
-- files named `oc20_data_mapping.pkl` and `mapping_adslab_slab.pkl`.
-
-The result keeps all discovered paths relative to the supplied root and exposes
-`to_dict()`, which contains only JSON-native values. A shard stem is valid only
-when it has exactly one structure file and one sidecar file. Missing structure
-or sidecar counterparts and duplicate structure or sidecar counterparts are
-reported separately; duplicate numeric spellings such as `7` and `007` are
-therefore not silently paired. This slice does not decompress any `.xz` file or
-load either pickle.
-
-### Implemented slice: bounded paired-shard inspection
-
-`agentic_preprocessing.oc20_inspection.inspect_oc20_shard_pair()` streams one
-chosen `.extxyz.xz` / `.txt.xz` pair without extracting either file. It records
-one same-index sample: the structure's atom count, raw header, and declared
-extended-XYZ property names, plus the sidecar's raw CSV fields. It then counts
-all complete structure records and all sidecar rows in the selected pair.
-
-The serialisable result distinguishes a confirmed count match, a confirmed
-mismatch, and an incomplete scan (`null` for `row_counts_match`) caused by a
-read or structural error. Malformed structure records and sidecar rows with a
-field count other than three are recorded as issues. It does not parse values
-into scientific quantities, validate units, or create derived files.
-
-### Implemented slice: lexical sample-schema profiling
-
-`agentic_preprocessing.oc20_schema.profile_oc20_sample()` consumes an existing
-bounded inspection result and performs no additional file I/O. It reports the
-raw header and sidecar values alongside lexical types such as `integer`,
-`real`, `boolean_vector`, and `string`. For the extended-XYZ `Properties`
-declaration, it records each atom field's name, declared type code, resolved
-generic value type, and component count. The known three OC20 sidecar positions
-are labelled `system_id`, `frame_number`, and `reference_energy`.
-
-These are format observations, not scientific interpretations: units and
-physical meaning remain unvalidated, and source values remain strings in the
-profile. Invalid or absent `Properties` declarations are explicit issues.
-
-### Implemented slice: opt-in mapping-key validation
-
-`agentic_preprocessing.oc20_mappings.validate_oc20_mapping_keys()` checks the
-sampled sidecar `system_id` against the metadata and clean-slab mappings and
-reports membership separately. When a clean-slab relationship is present, its
-raw target system ID is reported; a missing relationship remains missing
-evidence rather than a fabricated value.
-
-Python pickle deserialisation can execute code. The function therefore refuses
-to load mappings by default and returns `pickle_load_not_authorized` until its
-caller explicitly sets `allow_pickle_load=True`. That flag is appropriate only
-after independently verifying the provenance and checksum of the local mapping
-files. Synthetic test mappings exercise the opted-in path; the local mapping
-pickles are not loaded by this implementation step.
-
-### Implemented slice: composed deterministic profile
-
-`agentic_preprocessing.oc20_profile.profile_oc20_dataset()` composes discovery,
-one valid numeric shard pair, bounded inspection, lexical sample schema, and
-mapping-key validation into one serialisable result. When explicitly authorised,
-it reuses each trusted mapping load for membership validation and bounded
-metadata profiling. It chooses the lowest valid numeric stem by default, or
-records an issue when the requested stem is missing or invalid. A normal local
-profile reports that mapping membership is unverified rather than loading a
-pickle implicitly.
-
-### Implemented slice: multi-record sample consistency
-
-`agentic_preprocessing.oc20_consistency.profile_oc20_sample_consistency()`
-inspects a documented set of numeric record indices and compares their declared
-atom-property schemas, header field names, and sidecar field counts. It also
-counts empty fields by sidecar position across only those selected rows. These
-results are bounded-sample evidence, not a claim about missingness or schema
-uniformity across an entire shard.
-
-### Implemented slice: acceptance evaluation command
-
-`python -m agentic_preprocessing.oc20_acceptance` composes one bounded profile
-and fixed-sample consistency evidence into either JSON or a concise aggregate
-summary. It writes only to standard output and does not extract, transform, or
-write OC20 data. The default command uses shard `0`, record `0`, and
-consistency records `0 1 2`; changing them is explicit in the command line.
-
-The command keeps pickle loading disabled by default. Supplying
-`--allow-pickle-load` is a separate authorisation decision because Python
-pickle deserialisation can execute code. The default acceptance evaluation must
-not use that option. JSON output is suitable for two-run byte-equality checks,
-but generated reports belong outside the repository and are never committed.
-
-### Mapping values and units evidence
-
-`profile_trusted_metadata_record()` records only one trusted metadata record's
-field names, Python types, container lengths, and the mapping file SHA-256; it
-does not transform scientific values. The OC20 S2EF README and task
-documentation identify energy- and force-related quantities, but the reviewed
-sources do not establish a unit convention for the raw fields. The profile
-therefore emits `unit: null` and `status: "unresolved"` for `energy`,
-`free_energy`, `forces`, and `reference_energy`, rather than inferring a unit.
-An exact convention may be added only with a field-specific authoritative
-source.
-
-## Current limitations and follow-up
+## Dataset-specific limitations and follow-up
 
 - This inspection covers the S2EF 200K training subset only; it does not yet
   establish support for validation/OOD splits, LMDB, IS2RE/IS2RS, or OC20Dense.
 - Trusted metadata profiling now reports a SHA-256, but it does not compare it
   to an official published checksum; provenance verification remains external.
-- Synthetic compressed fixture tests cover discovery, missing and duplicate
-  numeric shard counterparts, bounded samples, count matches/mismatches,
-  truncated structure records, lexical sample schemas, and opt-in mapping-key
-  validation, bounded metadata-value profiling, mapping-file checksums, and
-  independent serialisation results. All unit conventions remain explicitly
-  unresolved, and the slice does not profile an entire mapping.
+- The dataset documentation reviewed here does not establish a field-specific
+  unit convention for the raw values. Units therefore remain unresolved until
+  an authoritative source is recorded.
 - ASE was used only as an ephemeral viewing tool, not added as a project
   dependency. NumPy is the only added runtime dependency.
 
-The profiler evaluation and local runtime evidence are now recorded in the
-development log. Repeat that evaluation whenever profiler behaviour or the
-supported input scope changes.
+Profiler implementation and local runtime evidence are recorded in the
+[acceptance record](oc20-profiler-phase-1-acceptance.md) and the
+[development log](../development-log.md). Repeat the acceptance evaluation when
+the profiler behaviour or supported input scope changes.

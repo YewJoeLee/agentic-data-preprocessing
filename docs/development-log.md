@@ -61,6 +61,15 @@ Use this log to retain the evidence needed for the interim report, final report,
 - Report or presentation use:
 ```
 
+## Reading historical acceptance results
+
+Acceptance entries preserve the behaviour observed at their recorded revision.
+The entries dated 11 September before `5d988d2` predate the safety correction
+that surfaces `pickle_load_not_authorized` in the concise summary. Do not treat
+their “no issue codes” wording as the current command behaviour; use the
+[Phase 1 acceptance record](design/oc20-profiler-phase-1-acceptance.md) and
+the later “Profiler review safety corrections” entry for the current contract.
+
 ## 2026-09-04 — OC20 200K reconnaissance and viewing
 
 ### Goal

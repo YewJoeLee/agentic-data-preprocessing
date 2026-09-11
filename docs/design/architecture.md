@@ -22,13 +22,16 @@ Profile / quality report / provenance / explanation
 
 ## Staged architecture
 
-### Stage 1: deterministic profiler (current implementation baseline)
+### Stage 1: deterministic profiler (completed bounded baseline)
 
 - Dataset discovery and format inspection.
 - Safe representative sampling.
 - Record/schema/metadata/relationship profiling.
 - Structured profile and human-readable summary.
 - Tests using reviewed synthetic fixtures and small local subsets.
+
+The detailed acceptance decision and retained limitations are in the
+[Phase 1 OC20 acceptance record](oc20-profiler-phase-1-acceptance.md).
 
 ### Stage 2: controlled agent workflow
 

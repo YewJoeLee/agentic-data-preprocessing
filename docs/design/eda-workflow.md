@@ -36,21 +36,11 @@ discovery, structuring, joining, or validation.
 
 ## Current milestone position
 
-As of 11 September 2026, the project has completed **Phase 1: deterministic
-dataset-profiler baseline** (September--October 2026) of the
-[milestone plan](../milestones.md) for its bounded scope. The core OC20
-evidence path is implemented and tested: discovery, bounded structuring, safe
-joining, validation, and minimal presentation. Cleaning, LLM-based planning,
-deterministic transformations, approval checkpoints, LangGraph, and multi-agent
-orchestration are not implemented.
-
-The deterministic-profiler acceptance scope is closed for its bounded evidence
-claims; its workstream-by-workstream evidence and limitations are recorded in
-the [Phase 1 acceptance matrix](oc20-profiler-phase-1-acceptance.md). A
-non-executing readiness planner exists as early preparatory evidence, but Phase
-2 has not started formally. LLM-based planning, deterministic transformations,
-approval checkpoints, LangGraph, and multi-agent orchestration remain
-unimplemented.
+The [milestone plan](../milestones.md) is authoritative for project phase and
+schedule. It records Phase 1 as complete for its bounded scope and Phase 2 as
+not formally started. This guideline records only the EDA-practice mapping;
+the detailed profiler decision, evidence, and limitations are in the
+[Phase 1 acceptance record](oc20-profiler-phase-1-acceptance.md).
 
 ## Source note
 

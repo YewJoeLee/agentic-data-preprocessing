@@ -1,56 +1,34 @@
-# Project scope
+# Operational scope and dataset boundaries
 
-## Project
+This is the canonical record of the project's **current operational scope**:
+what data families are in bounds, which safety boundaries apply, and what work
+is deferred. It does not repeat the proposal objectives, deliverables, or
+future architecture; those belong to the
+[project brief](design/project-brief.md), [requirements](design/requirements.md),
+and [architecture](design/architecture.md).
 
-**Agentic AI for Automated Data Understanding and Preprocessing**
+## Current operational boundary
 
-This Final Year Project investigates an LLM-based agent that can inspect,
-understand, and preprocess scientific datasets, especially catalyst datasets,
-for downstream machine learning.
+The completed first implementation is a deterministic, read-only OC20
+profiler for a local S2EF-200K subset and reviewed synthetic fixtures. It
+discovers files, validates numeric shard pairs, inspects bounded samples,
+produces serialisable evidence, and reports uncertainty rather than changing
+scientific values.
 
-## Problem and intended workflow
+Raw input remains immutable. LLM reasoning, transformations, approval
+checkpoints, LangGraph, multi-agent orchestration, a UI, and a database are not
+implemented. The non-executing readiness planner is preparatory evidence, not
+a formal Phase 2 workflow. See [milestones](milestones.md) for authoritative
+phase status and the [Phase 1 OC20 acceptance record](design/oc20-profiler-phase-1-acceptance.md)
+for the tested boundary.
 
-The system should not assume that a dataset is a clean table with a known
-schema. It should be able to:
+The system must never silently invent values, change labels, reorder sequences
+or trajectories, or make scientifically consequential imputations. Any future
+ambiguous or destructive operation requires explicit approval and a
+non-destructive, reproducible validation path.
 
-1. discover files, formats, records, and existing splits;
-2. infer fields, keys, labels, groups, sequences, units, and relationships;
-3. diagnose data-quality and scientific-consistency issues;
-4. understand the user's downstream task;
-5. propose a task-aware preprocessing plan;
-6. preview important or risky operations and request approval;
-7. execute transformations with deterministic tools;
-8. validate the result against the input and the stated task; and
-9. explain decisions, evidence, uncertainty, warnings, and provenance.
-
-Users should be able to compare before-and-after diagnostics and replay or
-roll back important workflow steps.
-
-## Core design constraint
-
-The LLM plans, selects tools, reasons over evidence, and explains decisions.
-Deterministic libraries perform inspection, transformations, and validation.
-
-The system must not silently:
-
-- invent values;
-- change labels;
-- reorder sequences or trajectories; or
-- make scientifically consequential imputations.
-
-Ambiguous or destructive actions require human confirmation. Transformations
-should be reproducible through generated code, configuration, and quality
-reports.
-
-## Initial implementation scope
-
-Start with a deterministic dataset profiler before building the agent workflow.
-The first vertical slice should discover a local dataset directory, inspect a
-small representative sample, and produce a structured profile.
-
-The initial evaluation domain is the Open Catalyst family, beginning with
-OC20. FLASH weather sequences are optional and should only be considered if
-time and data access allow.
+FLASH weather sequences are not in the active scope and are considered only if
+a documented evaluation gap and data access justify them.
 
 ## Evaluation datasets
 
@@ -68,23 +46,18 @@ different schemas, groupings, target definitions, and sequence semantics:
 - **OC20NEB** — ordered reaction-path calculations whose image order and
   reaction grouping are essential for transition-state analysis.
 
-Because the public datasets are large, development should use metadata and
-small representative subsets.
+Because the public datasets are large, development uses metadata and small,
+representative subsets.
 
-## Expected deliverables
+## Canonical references
 
-- a working prototype of the agentic data-understanding and preprocessing
-  system;
-- discovery, profiling, and adapter support for representative subsets of the
-  Open Catalyst families;
-- previews, approval controls, and rollback for important workflow steps;
-- evaluation of correctness, leakage prevention, reproducibility,
-  cross-type generalisation, runtime, and explanation quality; and
-- source code, documentation, and the final project report.
-
-## Suggested implementation technologies
-
-The original project specification mentions LangGraph, FAIR-Chem, NumPy,
-pandas, pymatgen, FastAPI, and React with TypeScript. These are implementation
-options, not requirements for the initial scaffold. Introduce them only when a
-working experiment justifies the dependency.
+- [Project brief](design/project-brief.md) — proposal objectives, expected
+  deliverables, supervisor guidance, and research questions.
+- [Requirements](design/requirements.md) — functional, non-functional, and
+  scientific-safety requirements.
+- [Architecture](design/architecture.md) — staged workflow and future system
+  design.
+- [Technology decisions](design/technology-decisions.md) — adopted and
+  deferred technologies.
+- [Evaluation plan](design/evaluation-plan.md) — scenarios, oracles, and
+  reporting rules.

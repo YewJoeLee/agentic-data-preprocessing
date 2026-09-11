@@ -27,7 +27,7 @@ Introduce a dependency only when a working experiment justifies it. Prefer small
 | FAIR-Chem capability guide | Reusable guidance for generating and validating FAIR-Chem inspection/preprocessing code. | A repeated, validated FAIR-Chem workflow shows that a reusable guide would reduce errors or duplication. | Optional future artefact. |
 | pymatgen | Materials-science parsing/metadata. | Needed for a documented domain check. | Candidate. |
 | LLM API/model | Evidence-grounded planning and explanation. | Deterministic profiler baseline and evaluation protocol exist; approval obtained for cost. | Deferred. |
-| LangGraph | Required stateful workflow orchestration, checkpoints, retries, approvals, and validation. | Deterministic-profiler gate is met; add graph tests and a minimal end-to-end workflow. | Required after baseline. |
+| LangGraph | Candidate stateful workflow orchestration for a future approved Phase 2 slice. | A specific workflow need, approved design, graph tests, and a minimal end-to-end workflow. | Deferred; no formal Phase 2 implementation has started. |
 | FastAPI | Backend service. | A service boundary is required by a verified user/workflow need. | Deferred. |
 | React/TypeScript | Approval/explanation UI. | CLI/report output is demonstrably inadequate; wireframes and acceptance criteria exist. | Deferred. |
 | Database | Persistent queryable run state. | File-based provenance fails a defined retrieval/concurrency need. | Deferred. |
