@@ -361,6 +361,20 @@ counts empty fields by sidecar position across only those selected rows. These
 results are bounded-sample evidence, not a claim about missingness or schema
 uniformity across an entire shard.
 
+### Implemented slice: acceptance evaluation command
+
+`python -m agentic_preprocessing.oc20_acceptance` composes one bounded profile
+and fixed-sample consistency evidence into either JSON or a concise aggregate
+summary. It writes only to standard output and does not extract, transform, or
+write OC20 data. The default command uses shard `0`, record `0`, and
+consistency records `0 1 2`; changing them is explicit in the command line.
+
+The command keeps pickle loading disabled by default. Supplying
+`--allow-pickle-load` is a separate authorisation decision because Python
+pickle deserialisation can execute code. The default acceptance evaluation must
+not use that option. JSON output is suitable for two-run byte-equality checks,
+but generated reports belong outside the repository and are never committed.
+
 ### Mapping values and units evidence
 
 `profile_trusted_metadata_record()` records only one trusted metadata record's

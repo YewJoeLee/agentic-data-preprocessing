@@ -52,6 +52,23 @@ Run the test suite with:
 uv run pytest
 ```
 
+### OC20 profiler acceptance evaluation
+
+Run a bounded, read-only acceptance report for the local OC20 subset with:
+
+```bash
+uv run python -m agentic_preprocessing.oc20_acceptance \
+  --dataset-root data/raw \
+  --shard-stem 0 \
+  --sample-index 0 \
+  --consistency-indices 0 1 2 \
+  --format summary
+```
+
+The command writes only to standard output and does not load mapping pickles
+unless `--allow-pickle-load` is explicitly supplied. Do not redirect its JSON
+output into the repository; use a temporary location for repeatability checks.
+
 ## Commit messages
 
 Use Conventional Commits with an optional lowercase scope:

@@ -147,3 +147,55 @@ Use this log to retain the evidence needed for the interim report, final report,
 
 - Timings are not a cross-machine benchmark and do not include trusted pickle
   deserialisation, full-shard schema profiling, or transformations.
+
+## 2026-09-11 — OC20 profiler acceptance evaluation
+
+### Goal
+
+- Demonstrate that the deterministic profiler can produce repeatable,
+  human-readable, read-only evidence on the local OC20 S2EF 200K subset.
+
+### Work completed
+
+- Added a standard-output-only acceptance command that composes a bounded
+  profile and fixed-sample consistency evidence without loading mapping
+  pickles by default.
+- Ran the command twice against shard `0`, record `0`, and consistency records
+  `0 1 2`, retaining generated JSON only under `/private/tmp/`.
+- EDA practices: Discovering, Structuring, Validating, and Presenting.
+
+### Evidence
+
+- Commit/configuration: working tree based on `26c5d4d`; Python 3.12.14;
+  `uv sync --locked`; pickle loading disabled.
+- Input/fixture: local OC20 S2EF 200K subset under `data/raw/`; shard `0`;
+  fixed records `0`, `1`, and `2`.
+- Test/command/result: two JSON acceptance runs compared with `cmp` were
+  byte-identical. The aggregate summary reported 40 valid shard pairs, all
+  three structure and sidecar samples found, no issue codes, and unresolved
+  unit evidence.
+- Output/figure/report: one summary run completed in 1.888 seconds elapsed.
+  This is descriptive local timing, not a cross-machine benchmark; the JSON
+  reports were not retained in the repository.
+
+### Decisions and rationale
+
+- The Phase 1 reporting gap is closed for the bounded OC20 profile: the same
+  configuration now produces serialisable evidence and a concise summary
+  without exposing source-record values.
+- Select split/group leakage-risk evidence as the next Phase 1 gap. This run
+  confirmed file, sample, and schema evidence, but it did not exercise a
+  relationship-group or split-risk scenario, which remains an explicit
+  evaluation requirement.
+
+### Limitations or failures
+
+- The run covers one training-subset shard and three fixed records only; it
+  does not establish full-subset schema uniformity or cross-type support.
+- Mapping pickles were deliberately not deserialised, so no trusted metadata
+  or clean-slab relationship claim is made from this acceptance run.
+
+### Next actions
+
+- Add a reviewed synthetic group/split-risk scenario and deterministic warning
+  evidence before considering controlled preprocessing or agent workflow work.

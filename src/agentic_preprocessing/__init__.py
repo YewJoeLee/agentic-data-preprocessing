@@ -1,5 +1,7 @@
 """Agentic scientific data preprocessing research prototype."""
 
+from typing import Any
+
 __version__ = "0.1.0"
 
 from .oc20_consistency import Oc20SampleConsistency, profile_oc20_sample_consistency
@@ -12,6 +14,7 @@ from .oc20_schema import Oc20SampleSchema, profile_oc20_sample
 
 __all__ = [
     "Oc20Discovery",
+    "Oc20AcceptanceEvaluation",
     "Oc20SampleConsistency",
     "Oc20SampleSchema",
     "Oc20Profile",
@@ -21,6 +24,8 @@ __all__ = [
     "ShardPairInspection",
     "__version__",
     "discover_oc20",
+    "evaluate_oc20_acceptance",
+    "format_oc20_acceptance_summary",
     "inspect_oc20_shard_pair",
     "profile_oc20_sample",
     "profile_oc20_dataset",
@@ -28,3 +33,31 @@ __all__ = [
     "profile_trusted_metadata_record",
     "validate_oc20_mapping_keys",
 ]
+
+_ACCEPTANCE_EXPORTS = frozenset(
+    {
+        "Oc20AcceptanceEvaluation",
+        "evaluate_oc20_acceptance",
+        "format_oc20_acceptance_summary",
+    }
+)
+
+
+def __getattr__(name: str) -> Any:
+    """Load acceptance helpers lazily for module-command compatibility."""
+
+    if name not in _ACCEPTANCE_EXPORTS:
+        raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+    from .oc20_acceptance import (
+        Oc20AcceptanceEvaluation,
+        evaluate_oc20_acceptance,
+        format_oc20_acceptance_summary,
+    )
+
+    exports = {
+        "Oc20AcceptanceEvaluation": Oc20AcceptanceEvaluation,
+        "evaluate_oc20_acceptance": evaluate_oc20_acceptance,
+        "format_oc20_acceptance_summary": format_oc20_acceptance_summary,
+    }
+    globals().update(exports)
+    return exports[name]

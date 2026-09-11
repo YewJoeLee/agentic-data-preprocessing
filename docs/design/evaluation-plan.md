@@ -49,6 +49,20 @@ explicitly unresolved until a field-specific authoritative source is recorded.
 Trusted metadata-present/absent and clean-slab-relationship-absent scenarios
 preserve raw anomaly codes or explicit absence without fabricating values.
 
+## Phase 1 local acceptance oracle
+
+The bounded local OC20 acceptance command runs discovery, one selected shard
+profile, and fixed sample consistency without pickle loading. The acceptance
+oracle is that it reports the discovered README and numeric-pair inventory;
+either completes selected-pair inspection and fixed samples or returns explicit
+issue codes; emits byte-identical JSON across two identical runs; and leaves
+every unit-evidence status unresolved. Record elapsed time only as descriptive
+local evidence with input configuration, revision, and machine context.
+
+The command's concise summary must contain aggregate counts, issue codes,
+mapping-load policy, and unit-evidence status. It must not use raw coordinates,
+energies, system IDs, or mapping values as human-facing acceptance evidence.
+
 ## Explanation-quality rubric
 
 | Criterion | Pass condition |
