@@ -297,3 +297,54 @@ Use this log to retain the evidence needed for the interim report, final report,
 
 - The planner does not interpret goal text beyond retaining it, call an LLM,
   execute an operation, or provide approval workflow state.
+
+## 2026-09-11 — Phase 1 deterministic-profiler closeout
+
+### Goal
+
+- Consolidate the deterministic-profiler evaluation evidence before starting
+  any formal Phase 2 implementation.
+
+### Work completed
+
+- Re-ran the bounded, read-only local acceptance oracle twice and compared its
+  JSON reports byte-for-byte.
+- Mapped every Phase 1 workstream to its focused synthetic tests, local
+  acceptance evidence, and explicit boundary in the
+  [Phase 1 acceptance matrix](design/oc20-profiler-phase-1-acceptance.md).
+- EDA practices: Discovering, Structuring, Joining, Validating, and Presenting.
+
+### Evidence
+
+- Commit/configuration: documentation closeout working tree; Python 3.12.14;
+  `uv sync --locked`; mapping pickle loading disabled.
+- Input/fixture: local S2EF-200K training subset under `data/raw/`; shard `0`;
+  sample `0`; fixed consistency samples `0`, `1`, and `2`; reviewed synthetic
+  fixtures in the automated suite.
+- Test/command/result: two JSON acceptance runs compared with `cmp` were
+  byte-identical. The summary reported 40 valid pairs, no issue codes,
+  unresolved unit evidence, and structures and sidecars present for all three
+  fixed samples. One summary run took 0.892 seconds elapsed.
+- Output/figure/report: JSON comparison outputs remain only in `/private/tmp`;
+  the committed record contains aggregate evidence only.
+
+### Decisions and rationale
+
+- Close Phase 1 for the bounded S2EF-200K/synthetic-fixture scope. Evidence
+  supports deterministic profiling and reporting, not a claim of general OC20
+  support or autonomous preprocessing.
+- Keep Phase 2 not formally started. The early readiness planner is
+  non-executing preparatory evidence and does not authorize transformations,
+  approval workflow, LangGraph, or agents.
+
+### Limitations
+
+- The local check examines one shard and three fixed records; it does not prove
+  full-subset schema uniformity, mapping correctness, or cross-type support.
+- Units, relationship semantics, and sequence semantics remain unresolved
+  without authoritative source evidence.
+
+### Next actions
+
+- Select and approve the next phase only when it addresses a documented
+  evaluation gap; do not infer an execution workflow from this closeout.

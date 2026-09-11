@@ -36,19 +36,21 @@ discovery, structuring, joining, or validation.
 
 ## Current milestone position
 
-As of 11 September 2026, the project is in **Phase 1: deterministic
+As of 11 September 2026, the project has completed **Phase 1: deterministic
 dataset-profiler baseline** (September--October 2026) of the
-[milestone plan](../milestones.md). The core OC20 evidence path is implemented
-and tested: discovery, bounded structuring, safe joining, validation, and
-minimal presentation. Cleaning, LLM-based planning, deterministic
-transformations, approval checkpoints, LangGraph, and multi-agent orchestration
-are not implemented.
-
-The deterministic-profiler acceptance scope now has representative evidence,
-concise reporting, and synthetic relationship and risk scenarios. The first
-Stage 2 readiness plan is bounded and non-executing; LLM-based planning,
+[milestone plan](../milestones.md) for its bounded scope. The core OC20
+evidence path is implemented and tested: discovery, bounded structuring, safe
+joining, validation, and minimal presentation. Cleaning, LLM-based planning,
 deterministic transformations, approval checkpoints, LangGraph, and multi-agent
-orchestration remain unimplemented.
+orchestration are not implemented.
+
+The deterministic-profiler acceptance scope is closed for its bounded evidence
+claims; its workstream-by-workstream evidence and limitations are recorded in
+the [Phase 1 acceptance matrix](oc20-profiler-phase-1-acceptance.md). A
+non-executing readiness planner exists as early preparatory evidence, but Phase
+2 has not started formally. LLM-based planning, deterministic transformations,
+approval checkpoints, LangGraph, and multi-agent orchestration remain
+unimplemented.
 
 ## Source note
 

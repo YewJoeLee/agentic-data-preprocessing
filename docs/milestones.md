@@ -3,6 +3,21 @@
 The dates below are transcribed from the supplied academic-year schedule.
 Confirm any changes with the supervisor or programme office.
 
+## Implementation status
+
+Status is based on committed repository evidence as of 11 September 2026. An
+implementation-complete phase can still have external administrative actions or
+evaluation consolidation outstanding.
+
+| Phase | Implementation status | Completed evidence | Next required step |
+| --- | --- | --- | --- |
+| Phase 0 — project plan and experiment setup | Implementation complete; supervisor-submission confirmation is external and unverified here. | Repository scaffold, project scope, architecture, risks, OC20 subset decision, and profiler acceptance criteria. | Record supervisor feedback or submission confirmation when available. |
+| Phase 1 — deterministic dataset-profiler baseline | Complete for the bounded OC20 S2EF-200K/synthetic-fixture scope. | Reproducible OC20 profiler, acceptance command, synthetic golden/risk tests, relationship and sequence-risk evidence, human-readable reporting, and a documented acceptance matrix. | Retain the limitations as evaluation inputs; begin a new slice only when it addresses a documented gap. |
+| Phase 2 — safe planning and controlled preprocessing | Not started formally. | A non-executing readiness planner was committed early as preparatory evidence. | Obtain separate approval for preview/approval policy before LangGraph or any deterministic execution. |
+| Phase 3 — evaluation and interim report | Not started. | None. | Turn implemented scenarios and limitations into the interim evaluation artefacts. |
+| Phase 4 — broaden evaluation and complete report | Not started. | None. | Stabilise the approved workflow, then broaden evaluation only where evidence identifies a gap. |
+| Phase 5 — amendments and oral presentation | Not started. | None. | Address approved feedback and prepare the evidence-backed defence. |
+
 | Date | Milestone | Repository implication |
 | --- | --- | --- |
 | 10 Aug 2026 | FYP starts | Begin project work and maintain research notes. |
@@ -40,6 +55,10 @@ the dates, scope, and acceptance criteria when the project plan is reviewed.
 **10–31 August 2026** — complete the project plan while keeping the first
 technical experiment deliberately small.
 
+**Status:** Implementation complete. The repository contains the planned
+artefacts; confirmation that the project plan was submitted to the supervisor
+is not represented in version control.
+
 | Week | Focus | Deliverables and evidence |
 | --- | --- | --- |
 | 10–16 Aug | Establish the repository and problem framing. | Repository scaffold; initial scope; reading register; confirmation of the final-year-project schedule. |
@@ -55,6 +74,12 @@ autonomous preprocessing platform.
 
 **September–October 2026** — build a small, testable profiler for a local OC20
 subset or reviewed synthetic atomistic fixtures.
+
+**Status:** Complete for the bounded OC20 S2EF-200K/synthetic-fixture scope.
+The profiler gate and evidence closeout are recorded in the
+[Phase 1 acceptance matrix](design/oc20-profiler-phase-1-acceptance.md). The
+result is not a claim of complete OC20-family support; retained limitations are
+inputs to later evaluation rather than unplanned feature expansion.
 
 | Workstream | Target capability | Acceptance evidence |
 | --- | --- | --- |
@@ -72,6 +97,11 @@ facts.
 
 **November–December 2026** — extend the working profiler only with a bounded,
 transparent preprocessing workflow.
+
+**Status:** Not started formally. The non-executing readiness planner was
+committed early as preparatory evidence, but it does not advance this phase or
+authorize its next slice. No transformation, approval workflow, LangGraph
+graph, or execution tool is implemented yet.
 
 | Capability | Minimum behaviour | Evidence to keep |
 | --- | --- | --- |
@@ -91,6 +121,9 @@ operations.
 **January 2027** — turn implementation artefacts into defensible evaluation
 evidence before the interim-report deadline.
 
+**Status:** Not started. Existing tests and development-log entries are inputs
+to this phase, but they are not yet a complete interim evaluation package.
+
 | Evaluation dimension | Question | Minimum artefact |
 | --- | --- | --- |
 | Correctness | Are profile facts and warnings right for the inspected data? | Golden tests, manual spot checks, and error categories. |
@@ -108,6 +141,8 @@ revised plan for the final phase.
 **February–22 March 2027** — stabilise the prototype, deepen evaluation, and
 write the final report.
 
+**Status:** Not started.
+
 | Period | Focus | Deliverables and evidence |
 | --- | --- | --- |
 | February | Improve the profiler and safe workflow only where evaluation exposes a concrete gap; introduce scoped multi-agent sequential/parallel orchestration if role contracts are stable; test one contrasting Open Catalyst semantic case if feasible. | Change log tied to evaluation findings; orchestration/merge scenarios; expanded scenario matrix; limitations register. |
@@ -122,6 +157,8 @@ documented evaluation gap.
 
 **23 March–May 2027** — address feedback, polish the evidence trail, and
 prepare the defence.
+
+**Status:** Not started.
 
 | Period | Focus | Deliverables and evidence |
 | --- | --- | --- |

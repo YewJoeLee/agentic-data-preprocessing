@@ -63,6 +63,12 @@ The command's concise summary must contain aggregate counts, issue codes,
 mapping-load policy, and unit-evidence status. It must not use raw coordinates,
 energies, system IDs, or mapping values as human-facing acceptance evidence.
 
+The resulting bounded-scope closeout is recorded in the
+[Phase 1 acceptance matrix](oc20-profiler-phase-1-acceptance.md). It maps each
+Phase 1 workstream to the applicable oracle, observed evidence, and retained
+limitation; it is not a substitute for the cross-type and operation scenarios
+listed in this plan.
+
 ## Explicit group/split risk oracle
 
 `analyse_group_split_risks()` reports a cross-split group only when its caller
