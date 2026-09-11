@@ -215,7 +215,7 @@ Use this log to retain the evidence needed for the interim report, final report,
 
 ### Evidence
 
-- Commit/configuration: `336e679` and `3660933`; Python 3.12.14.
+- Commit/configuration: `c86127c`; Python 3.12.14.
 - Input/fixture: in-memory synthetic assignments only; no raw OC20 files or
   mapping pickles.
 - Test/command/result: `uv run pytest tests/test_oc20_risks.py -v` — 4 passed;
@@ -232,3 +232,37 @@ Use this log to retain the evidence needed for the interim report, final report,
 - Clean-slab IDs and metadata fields are not treated as leakage groups. No
   claim about their grouping semantics is made until an authoritative OC20
   source defines that relationship.
+
+## 2026-09-11 — Explicit sequence-order risk oracle
+
+### Goal
+
+- Add deterministic ordering-risk evidence without inventing OC20 trajectory
+  semantics.
+
+### Work completed
+
+- Added a pure analyser for caller-supplied ordered-group assignments and
+  synthetic duplicate, non-monotonic, safe-control, invalid-evidence, and
+  repeatability tests.
+- EDA practices: Structuring and Validating.
+
+### Evidence
+
+- Commit/configuration: current sequence-risk feature slice; Python 3.12.14.
+- Input/fixture: in-memory synthetic ordered-group assignments only; no raw
+  OC20 files or mapping pickles.
+- Test/command/result: `uv run pytest tests/test_oc20_sequence_risks.py -v` —
+  4 passed.
+
+### Decisions and rationale
+
+- The caller supplies both group IDs and observed order. Duplicate positions
+  and decreasing positions are evidence of risk; missing or negative positions
+  are uncertainty, not a safe result.
+
+### Limitations
+
+- No OC20 S2EF record is claimed to be a trajectory/image sequence. The
+  analyser is not connected to OC20NEB until an authoritative grouping and
+  ordering source is documented.

@@ -72,6 +72,17 @@ result, and the affected assignment is excluded from group aggregation. This
 oracle does not derive group IDs from OC20 clean-slab mappings, metadata fields,
 filenames, shard order, or record order.
 
+## Explicit sequence-order risk oracle
+
+`analyse_sequence_risks()` reports duplicate positions and decreasing positions
+only within caller-supplied explicit group IDs. Iterable order is treated as
+observed source order because the caller supplies it; a missing group, missing
+position, or negative position is warning evidence and is excluded from
+aggregation. The oracle does not derive trajectory, reaction, image-order, or
+other sequence semantics from OC20 S2EF data, mappings, filenames, or record
+order. An authoritative OC20NEB source is required before applying this check
+to an OC20NEB dataset.
+
 ## Explanation-quality rubric
 
 | Criterion | Pass condition |

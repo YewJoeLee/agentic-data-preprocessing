@@ -17,6 +17,12 @@ from .oc20_risks import (
     analyse_group_split_risks,
 )
 from .oc20_schema import Oc20SampleSchema, profile_oc20_sample
+from .oc20_sequence_risks import (
+    DuplicateSequencePosition,
+    SequenceAssignment,
+    SequenceRiskReport,
+    analyse_sequence_risks,
+)
 
 __all__ = [
     "Oc20Discovery",
@@ -27,13 +33,17 @@ __all__ = [
     "GroupSplitAssignment",
     "GroupSplitRisk",
     "GroupSplitRiskReport",
+    "DuplicateSequencePosition",
     "MappingKeyValidation",
     "MetadataRecordProfile",
     "ShardPair",
     "ShardPairInspection",
+    "SequenceAssignment",
+    "SequenceRiskReport",
     "__version__",
     "discover_oc20",
     "analyse_group_split_risks",
+    "analyse_sequence_risks",
     "evaluate_oc20_acceptance",
     "format_oc20_acceptance_summary",
     "inspect_oc20_shard_pair",
