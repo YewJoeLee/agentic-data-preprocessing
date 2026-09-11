@@ -5,6 +5,7 @@ These documents turn the FYP proposal into a living, evidence-backed design. The
 - [Project brief](project-brief.md)
 - [Requirements](requirements.md)
 - [Architecture](architecture.md)
+- [EDA workflow guideline](eda-workflow.md)
 - [Technology decisions](technology-decisions.md)
 - [Literature review](literature-review.md)
 - [Evaluation plan](evaluation-plan.md)

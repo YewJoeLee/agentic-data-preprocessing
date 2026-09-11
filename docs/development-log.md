@@ -6,6 +6,8 @@ Use this log to retain the evidence needed for the interim report, final report,
 
 - Add one entry per active development week and one entry for every meaningful experiment or design decision.
 - Include the commit, command/configuration, fixture/subset, and observed outcome wherever applicable.
+- Name the [EDA practices](design/eda-workflow.md) exercised and the evidence
+  recorded for each; treat the practices as iterative rather than sequential.
 - Record failed experiments and limitations immediately.
 - Link to saved figures, reports, or golden outputs rather than pasting large generated artefacts into this file.
 
@@ -21,6 +23,7 @@ Use this log to retain the evidence needed for the interim report, final report,
 ### Work completed
 
 - [Implementation, reading, design, or evaluation work]
+- EDA practices: [Discovering, Structuring, Cleaning, Joining, Validating, and/or Presenting]
 
 ### Evidence
 
