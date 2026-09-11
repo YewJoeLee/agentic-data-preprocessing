@@ -51,3 +51,32 @@ Run the test suite with:
 ```bash
 uv run pytest
 ```
+
+## Commit messages
+
+Use Conventional Commits with an optional lowercase scope:
+
+```text
+type(optional-scope): short imperative summary
+```
+
+Allowed types are `feat`, `fix`, `docs`, `test`, `refactor`, `perf`, `build`,
+`ci`, `style`, `revert`, and `setup`. `setup` is used for repository or
+project initialization work; routine maintenance should use the more specific
+standard type.
+
+Enable the versioned local hook once per clone:
+
+```bash
+git config --local core.hooksPath .githooks
+```
+
+The `commit-msg` hook validates the subject. The `pre-commit` hook runs Ruff's
+formatting and lint checks without modifying files. If formatting fails, run:
+
+```bash
+uv run ruff format .
+```
+
+The hooks are local safeguards, so each clone must run the activation command
+above before making commits.
