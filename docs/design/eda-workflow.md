@@ -44,12 +44,11 @@ minimal presentation. Cleaning, LLM-based planning, deterministic
 transformations, approval checkpoints, LangGraph, and multi-agent orchestration
 are not implemented.
 
-Phase 1 remains in progress within its September--October delivery window. Its
-acceptance scope includes representative profile evidence, concise human-facing
-reporting, and relationship and risk scenarios. The current profiler provides
-machine-readable evidence and a bounded notebook view; the next work should
-close a documented deterministic-profiler gap before introducing a workflow or
-agent framework.
+The deterministic-profiler acceptance scope now has representative evidence,
+concise reporting, and synthetic relationship and risk scenarios. The first
+Stage 2 readiness plan is bounded and non-executing; LLM-based planning,
+deterministic transformations, approval checkpoints, LangGraph, and multi-agent
+orchestration remain unimplemented.
 
 ## Source note
 

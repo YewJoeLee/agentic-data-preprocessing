@@ -9,6 +9,13 @@ from .oc20_discovery import Oc20Discovery, ShardPair, discover_oc20
 from .oc20_inspection import ShardPairInspection, inspect_oc20_shard_pair
 from .oc20_mappings import MappingKeyValidation, validate_oc20_mapping_keys
 from .oc20_metadata import MetadataRecordProfile, profile_trusted_metadata_record
+from .oc20_planning import (
+    DownstreamGoal,
+    Oc20ReadinessPlan,
+    PlanEvidence,
+    ProposedCheck,
+    build_oc20_readiness_plan,
+)
 from .oc20_profile import Oc20Profile, profile_oc20_dataset
 from .oc20_risks import (
     GroupSplitAssignment,
@@ -30,12 +37,16 @@ __all__ = [
     "Oc20SampleConsistency",
     "Oc20SampleSchema",
     "Oc20Profile",
+    "Oc20ReadinessPlan",
     "GroupSplitAssignment",
     "GroupSplitRisk",
     "GroupSplitRiskReport",
     "DuplicateSequencePosition",
+    "DownstreamGoal",
     "MappingKeyValidation",
     "MetadataRecordProfile",
+    "PlanEvidence",
+    "ProposedCheck",
     "ShardPair",
     "ShardPairInspection",
     "SequenceAssignment",
@@ -44,6 +55,7 @@ __all__ = [
     "discover_oc20",
     "analyse_group_split_risks",
     "analyse_sequence_risks",
+    "build_oc20_readiness_plan",
     "evaluate_oc20_acceptance",
     "format_oc20_acceptance_summary",
     "inspect_oc20_shard_pair",

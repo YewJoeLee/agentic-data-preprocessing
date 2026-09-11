@@ -83,6 +83,16 @@ other sequence semantics from OC20 S2EF data, mappings, filenames, or record
 order. An authoritative OC20NEB source is required before applying this check
 to an OC20NEB dataset.
 
+## Evidence-grounded readiness-plan oracle
+
+`build_oc20_readiness_plan()` preserves a non-empty caller-supplied goal and
+produces a non-executing plan from aggregate `Oc20Profile` evidence. It blocks
+when no valid shard pair is selected, surfaces unresolved unit fields and
+profile issue codes as review/risk evidence, and requires deterministic-profile
+plus explicit group/split and sequence-order validation before any future
+operation. Its output contains no raw source-record values or mutation step;
+passing this oracle is not evidence of autonomous preprocessing.
+
 ## Explanation-quality rubric
 
 | Criterion | Pass condition |

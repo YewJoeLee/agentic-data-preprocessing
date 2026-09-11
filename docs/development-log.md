@@ -266,3 +266,34 @@ Use this log to retain the evidence needed for the interim report, final report,
 - No OC20 S2EF record is claimed to be a trajectory/image sequence. The
   analyser is not connected to OC20NEB until an authoritative grouping and
   ordering source is documented.
+
+## 2026-09-11 — OC20 evidence-grounded readiness planner
+
+### Goal
+
+- Demonstrate a user-goal-aware planning contract without a transformation or
+  LLM.
+
+### Work completed
+
+- Added a pure readiness planner that combines a caller-supplied goal with
+  aggregate OC20 profile evidence and returns review-only checks, risks,
+  assumptions, and validation requirements.
+- EDA practices: Structuring, Validating, and Presenting.
+
+### Evidence
+
+- Input/fixture: in-memory synthetic OC20 profile fixtures only; no raw OC20
+  files or mapping pickles.
+- Test/command/result: `uv run pytest tests/test_oc20_planning.py -v` — 4
+  passed.
+
+### Decisions and rationale
+
+- The plan blocks when profile selection is invalid and requests review for
+  unresolved units. It performs no mutation and retains the user goal verbatim.
+
+### Limitations
+
+- The planner does not interpret goal text beyond retaining it, call an LLM,
+  execute an operation, or provide approval workflow state.
