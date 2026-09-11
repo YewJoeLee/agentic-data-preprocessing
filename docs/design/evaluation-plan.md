@@ -63,6 +63,15 @@ The command's concise summary must contain aggregate counts, issue codes,
 mapping-load policy, and unit-evidence status. It must not use raw coordinates,
 energies, system IDs, or mapping values as human-facing acceptance evidence.
 
+## Explicit group/split risk oracle
+
+`analyse_group_split_risks()` reports a cross-split group only when its caller
+supplies the same explicit group ID with two or more distinct split labels.
+Missing group IDs and missing split labels are warning evidence, not a safe
+result, and the affected assignment is excluded from group aggregation. This
+oracle does not derive group IDs from OC20 clean-slab mappings, metadata fields,
+filenames, shard order, or record order.
+
 ## Explanation-quality rubric
 
 | Criterion | Pass condition |

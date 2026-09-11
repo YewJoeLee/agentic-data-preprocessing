@@ -199,3 +199,36 @@ Use this log to retain the evidence needed for the interim report, final report,
 
 - Add a reviewed synthetic group/split-risk scenario and deterministic warning
   evidence before considering controlled preprocessing or agent workflow work.
+
+## 2026-09-11 — Explicit group/split risk oracle
+
+### Goal
+
+- Add deterministic leakage-risk evidence without inventing an OC20 group
+  semantic.
+
+### Work completed
+
+- Added a pure analyser for caller-supplied group/split assignments and
+  synthetic cross-split, same-split, missing-evidence, and repeatability tests.
+- EDA practices: Structuring and Validating.
+
+### Evidence
+
+- Commit/configuration: `336e679` and `3660933`; Python 3.12.14.
+- Input/fixture: in-memory synthetic assignments only; no raw OC20 files or
+  mapping pickles.
+- Test/command/result: `uv run pytest tests/test_oc20_risks.py -v` — 4 passed;
+  full suite — 43 passed.
+
+### Decisions and rationale
+
+- A leakage risk is reported only for explicitly supplied group IDs that span
+  multiple split labels. Missing values are warning evidence and do not create
+  a safe group result.
+
+### Limitations
+
+- Clean-slab IDs and metadata fields are not treated as leakage groups. No
+  claim about their grouping semantics is made until an authoritative OC20
+  source defines that relationship.

@@ -10,6 +10,12 @@ from .oc20_inspection import ShardPairInspection, inspect_oc20_shard_pair
 from .oc20_mappings import MappingKeyValidation, validate_oc20_mapping_keys
 from .oc20_metadata import MetadataRecordProfile, profile_trusted_metadata_record
 from .oc20_profile import Oc20Profile, profile_oc20_dataset
+from .oc20_risks import (
+    GroupSplitAssignment,
+    GroupSplitRisk,
+    GroupSplitRiskReport,
+    analyse_group_split_risks,
+)
 from .oc20_schema import Oc20SampleSchema, profile_oc20_sample
 
 __all__ = [
@@ -18,12 +24,16 @@ __all__ = [
     "Oc20SampleConsistency",
     "Oc20SampleSchema",
     "Oc20Profile",
+    "GroupSplitAssignment",
+    "GroupSplitRisk",
+    "GroupSplitRiskReport",
     "MappingKeyValidation",
     "MetadataRecordProfile",
     "ShardPair",
     "ShardPairInspection",
     "__version__",
     "discover_oc20",
+    "analyse_group_split_risks",
     "evaluate_oc20_acceptance",
     "format_oc20_acceptance_summary",
     "inspect_oc20_shard_pair",
