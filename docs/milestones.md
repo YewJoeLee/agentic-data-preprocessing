@@ -107,6 +107,8 @@ graph, or execution tool is implemented yet.
 | --- | --- | --- |
 | LangGraph workflow | Implement explicit graph state, approval checkpoints, retry handling, and validation transitions after the profiler gate. | Tested graph run from profile to validated report. |
 | Preprocessing plan | Convert a user goal and profiler evidence into proposed operations, assumptions, risks, and validation checks. | Example plans that cite observations rather than unsupported assumptions. |
+| LLM planning contract | Constrain any model to a typed plan or deterministic-tool configuration; record model/version, prompt-template revision, evidence manifest, decoding parameters, and token/cost record without storing secrets. | Schema-validation, missing-evidence, and over-budget refusal scenarios; no model output may execute directly. |
+| Initial operation set | Implement only non-destructive field selection, evidence-supported type casting, and validated mapping joins as the first allow-listed operations. Defer unit conversion, scaling, imputation, sequence windowing, and format conversion until a source-specific oracle justifies them. | Tool tests cover successful operation, rejected ambiguous input, preserved raw source, generated configuration, and validation report. |
 | Preview and approval | Show source scope and predicted impact before consequential actions; require confirmation where ambiguity or loss exists. | Before/after previews and documented approval scenarios. |
 | Deterministic execution | Run a small allow-listed set of explicit operations; preserve source data. | Tool tests, generated configuration/code, and provenance records. |
 | Validation | Compare outputs with input and stated task; check labels, group/split constraints, units, and ordering where applicable. | Validation reports and leakage-prevention scenarios. |
@@ -115,6 +117,11 @@ graph, or execution tool is implemented yet.
 **Gate:** make no claim that the prototype autonomously cleans scientific data.
 The contribution is evidence-led planning and deterministic, inspectable
 operations.
+
+The Phase 2 goal suite must cover: evidence-only dataset explanation; OC20
+preparation planning for model training; sequence forecasting with explicit
+anti-leakage constraints; and an OC20NEB reaction-level request that is refused
+until the OC20NEB adapter establishes authoritative grouping, order, and units.
 
 ### Phase 3 — evaluation and interim report
 
@@ -136,6 +143,12 @@ to this phase, but they are not yet a complete interim evaluation package.
 implemented baseline, preliminary evaluation, failures/limitations, and the
 revised plan for the final phase.
 
+Before source expansion, prepare one evidence card for each of OC22,
+OC20-mAds, OC20Dense, and OC20NEB: official source reference, approved
+representative subset or fixture, supported-input boundary, semantic invariant,
+acceptance oracle, expected resource cost, and decision on whether FAIR-Chem is
+needed. An evidence card is planning evidence, not adapter support.
+
 ### Phase 4 — broaden evaluation and complete the report
 
 **February–22 March 2027** — stabilise the prototype, deepen evaluation, and
@@ -145,8 +158,8 @@ write the final report.
 
 | Period | Focus | Deliverables and evidence |
 | --- | --- | --- |
-| February | Improve the profiler and safe workflow only where evaluation exposes a concrete gap; introduce scoped multi-agent sequential/parallel orchestration if role contracts are stable; test one contrasting Open Catalyst semantic case if feasible. | Change log tied to evaluation findings; orchestration/merge scenarios; expanded scenario matrix; limitations register. |
-| Early March | Freeze the demonstration path and assemble final results. | Stable small local demo input; final figures/tables; reproducibility checklist; draft presentation narrative. |
+| February | Implement and evaluate one bounded representative-subset adapter slice for each remaining declared Open Catalyst source: OC22, OC20-mAds, OC20Dense, and OC20NEB. Each slice follows its evidence card and preserves its source-specific invariant; it is not a full-dataset integration. | Four source-specific acceptance results, documented unsupported cases, and an explicit FAIR-Chem adoption or non-adoption decision for each slice. |
+| Early March | Demonstrate the final minimal multi-agent workflow: sequential planning, policy/approval, deterministic execution, validation, and explanation, with one independent read-only parallel branch and deterministic evidence merge. Complete the five-source cross-type evaluation and freeze the demonstration path. | Tested graph/merge scenario, source-coverage matrix, final figures/tables, reproducibility checklist, and draft presentation narrative. |
 | By 22 March | Submit the final report. | Report, source-code snapshot, evaluation evidence, and complete references. |
 
 **Gate:** distinguish clearly between implemented/tested functionality and

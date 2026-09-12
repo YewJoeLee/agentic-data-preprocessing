@@ -42,6 +42,19 @@ The detailed acceptance decision and retained limitations are in the
 - Execute only allow-listed deterministic operations.
 - Store provenance and validate the result.
 
+### LLM planning contract
+
+An LLM may produce a typed plan or configuration that references evidence and
+allow-listed deterministic tools; it must not execute arbitrary generated code
+or mutate source data. Each model-assisted run records the provider/model and
+version, prompt-template revision, evidence-manifest identifiers, decoding
+parameters, output-schema version, and token/cost record. Secrets and raw
+scientific records are excluded from that run record.
+
+A plan that fails schema validation, cites unavailable evidence, exceeds the
+declared cost limit, or proposes an unsupported operation becomes a
+review-required refusal. It cannot enter execution.
+
 ### Stage 3: final multi-agent orchestration target
 
 The intended final implementation is a multi-agent system with a sequential
@@ -96,6 +109,7 @@ WorkflowState
   execution: operations_run, generated_config, output_refs
   validation: checks, results, before_after_summary
   provenance: code_version, tool_versions, timestamps
+  llm_run: model/version, template revision, evidence manifest, parameters, cost
   explanation: user-facing summary and limitations
 ```
 
@@ -106,6 +120,8 @@ WorkflowState
 - Output references never overwrite raw inputs.
 - Validation results are recorded before a run is described as complete.
 - Replaying a run uses the stored configuration and the same declared sample policy.
+- A model-assisted plan records the evidence it used and passes the typed-plan
+  schema before an allow-listed tool can consume it.
 
 ## Tool registry
 
@@ -119,6 +135,9 @@ Tools should be explicit, deterministic, versioned, and narrow in purpose.
 | Transformation | Select fields, cast types, join validated mappings, encode/scale when unambiguous. | Approved plan + input -> derived output/configuration. |
 | Validation | Check split/group isolation, alignment, label/shape preservation, report diffs. | Input + output + task -> validation report. |
 
+The current OC20 implementation modules and their future wrapper roles are
+catalogued in the [OC20 profiler module reference](oc20-profiler-module-reference.md).
+
 ## Approval and rollback policy
 
 Require approval when an action may delete/overwrite values, change labels or units, alter trajectory order, break group alignment, select an ambiguous join, or otherwise make a scientifically consequential assumption.
@@ -130,7 +149,7 @@ Prefer non-destructive derived outputs. Rollback is implemented by preserving th
 | Option | Trigger to consider it | Evidence required before adoption |
 | --- | --- | --- |
 | LangGraph/workflow orchestration | Required post-profiler agent-workflow implementation. | Profiler gate is met; graph has explicit state/checkpoint/retry/validation tests. |
-| Multiple specialised agents | Final intended architecture; introduce incrementally when a role contract is stable. | A defined protocol, shared-state contract, safe merge rules, and evaluation benefit. |
-| FAIR-Chem integration | Needed to inspect/validate an OC format that simpler tools cannot support safely. | Adapter contract, small fixture, and reproducible integration test. |
+| Multiple specialised agents | Final required architecture after the controlled workflow. | A defined protocol, shared-state contract, one independent read-only parallel branch, deterministic merge rules, and an end-to-end safety scenario. |
+| FAIR-Chem integration | Assess during each non-OC20 adapter slice whether official FAIR-Chem tooling is needed to inspect or validate the selected format safely. | A recorded adoption or non-adoption rationale; if adopted, an adapter contract, small fixture, and reproducible integration test. |
 | Database | File-based provenance becomes insufficient for required queries or concurrent runs. | Concrete access pattern and migration/data-retention plan. |
 | UI | Evidence shows a CLI/report is inadequate for the approval or explanation workflow. | User need, wireframe, and scoped acceptance criteria. |

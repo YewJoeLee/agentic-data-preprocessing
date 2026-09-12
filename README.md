@@ -72,6 +72,68 @@ is bounded to the selected shard, but is not a constant-byte read. Do not
 redirect its JSON output into the repository; use a temporary location for
 repeatability checks.
 
+### Output formats
+
+`--format summary` is the default human-readable report. It contains aggregate
+evidence only:
+
+| Summary line | Meaning |
+| --- | --- |
+| `Valid shard pairs` | Number of numeric stems with exactly one structure and one sidecar shard. |
+| `Selected numeric stem` | The valid shard selected for bounded inspection. |
+| `Mapping pickle loading` | Whether pickle loading was disabled or explicitly authorised. |
+| `Unit evidence` | Field-unit status. `unresolved` means no authoritative field-specific convention is recorded. |
+| `Issue codes` | Aggregate warnings from profile and consistency checks. `pickle_load_not_authorized` is expected policy evidence when pickle loading is disabled. |
+| `Fixed consistency samples` | Structure and sidecar samples found out of the requested fixed indices. |
+
+Use JSON when another program, an experiment record, or a detailed review
+needs the complete structured evidence:
+
+```bash
+uv run python -m agentic_preprocessing.oc20_acceptance \
+  --dataset-root data/raw \
+  --shard-stem 0 \
+  --sample-index 0 \
+  --consistency-indices 0 1 2 \
+  --format json > /private/tmp/oc20-acceptance.json
+```
+
+The JSON top level contains `profile`, `sample_consistency`,
+`consistency_indices`, and `pickle_loading_authorised`.
+
+| JSON section | Meaning |
+| --- | --- |
+| `profile.discovery` | README/shard/pickle inventory, numeric pair status, and ignored symlinks. |
+| `profile.inspection` | Record and row counts, scan completion, selected bounded samples, and parsing issues. |
+| `profile.sample_schema` | Header fields, atom-property declarations, lexical types, and schema issues. |
+| `profile.mapping_validation` | Mapping-key evidence and pickle-loading policy. |
+| `profile.metadata_record_profile` | Trusted metadata schema, checksum, size, and anomaly evidence; normally `null` when pickle loading is disabled. |
+| `profile.unit_evidence` | Per-field unit status; this remains unresolved until an authoritative source is recorded. |
+| `profile.issues` | Deduplicated profile-level issues. |
+| `sample_consistency` | Schema/field-count consistency and empty-field evidence across only the requested sample indices. |
+
+JSON can include bounded raw sample fields for evidence. Do not commit it or
+write it under `data/`; use a temporary location such as `/private/tmp`.
+
+### Trusted mapping-pickle inspection
+
+Python pickle deserialisation can execute code. Enable mapping inspection only
+after independently verifying the mapping files' source and checksum:
+
+```bash
+uv run python -m agentic_preprocessing.oc20_acceptance \
+  --dataset-root data/raw \
+  --shard-stem 0 \
+  --sample-index 0 \
+  --consistency-indices 0 1 2 \
+  --allow-pickle-load \
+  --format summary
+```
+
+This option remains read-only. It permits mapping-key validation and bounded
+metadata evidence; it does not transform source data or establish a verified
+scientific unit convention.
+
 ## Commit messages
 
 Use Conventional Commits with an optional lowercase scope:

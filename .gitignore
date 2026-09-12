@@ -226,3 +226,6 @@ data/samples/*
 !data/samples/.gitkeep
 outputs/
 .DS_Store
+
+# Personal, local explanations for the OC20 profiler
+docs/oc20-profiler-eli5.local.md

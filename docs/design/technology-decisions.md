@@ -23,10 +23,10 @@ Introduce a dependency only when a working experiment justifies it. Prefer small
 | --- | --- | --- | --- |
 | NumPy/pandas | Deterministic tabular inspection/transformation. | NumPy is required to load the selected OC20 metadata mapping; pandas remains conditional. | NumPy adopted; pandas candidate. |
 | ASE | Atomistic `Atoms` and trajectory handling. | Development-only use is justified for the OC20 reconnaissance notebook; a runtime adapter remains conditional on a tested parser contract. | Development tool adopted; runtime adapter candidate. |
-| FAIR-Chem | Open Catalyst conventions/data tooling and record interpretation. | Introduce with a small adapter contract/fixture for the selected OC format. | Important planned integration. |
+| FAIR-Chem | Open Catalyst conventions/data tooling and record interpretation. | During each non-OC20 adapter slice, record whether official FAIR-Chem tooling is required for the selected format; if adopted, add a small adapter contract, fixture, and integration test. | Planned source-expansion decision; not yet adopted. |
 | FAIR-Chem capability guide | Reusable guidance for generating and validating FAIR-Chem inspection/preprocessing code. | A repeated, validated FAIR-Chem workflow shows that a reusable guide would reduce errors or duplication. | Optional future artefact. |
 | pymatgen | Materials-science parsing/metadata. | Needed for a documented domain check. | Candidate. |
-| LLM API/model | Evidence-grounded planning and explanation. | Deterministic profiler baseline and evaluation protocol exist; approval obtained for cost. | Deferred. |
+| LLM API/model | Evidence-grounded planning and explanation. | Deterministic profiler baseline and evaluation protocol exist; approval obtained for cost; typed-plan schema, run record, and cost limit are defined. | Deferred until a Phase 2 slice. |
 | LangGraph | Candidate stateful workflow orchestration for a future approved Phase 2 slice. | A specific workflow need, approved design, graph tests, and a minimal end-to-end workflow. | Deferred; no formal Phase 2 implementation has started. |
 | FastAPI | Backend service. | A service boundary is required by a verified user/workflow need. | Deferred. |
 | React/TypeScript | Approval/explanation UI. | CLI/report output is demonstrably inadequate; wireframes and acceptance criteria exist. | Deferred. |
@@ -84,6 +84,9 @@ Revisit trigger: [what would cause this to change]
 - Pin and record versions for libraries used in evaluation.
 - Add an integration test and a reviewed small fixture before claiming adapter support.
 - Seek approval before data downloads that are large or before paid model/API usage.
+- Treat model output as a typed, reviewable plan or deterministic-tool
+  configuration; record its version, evidence manifest, parameters, and cost,
+  but never secrets or raw scientific records.
 - Do not add a UI or database merely because it was listed in the original proposal.
 - Implement LangGraph only after the profiler baseline is demonstrably working;
   then keep graph nodes, transitions, retries, and state contracts testable.

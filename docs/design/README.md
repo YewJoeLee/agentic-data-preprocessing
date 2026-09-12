@@ -12,6 +12,8 @@ experiments and milestones for the authoritative project phase.
   manual-inspection evidence for the local S2EF-200K subset.
 - [Phase 1 OC20 acceptance](oc20-profiler-phase-1-acceptance.md) — bounded
   profiler acceptance decision, test/command evidence, and retained limits.
+- [OC20 profiler module reference](oc20-profiler-module-reference.md) —
+  runtime module interfaces, safety boundaries, and future tool roles.
 - [Technology decisions](technology-decisions.md)
 - [Literature review](literature-review.md)
 - [Evaluation plan](evaluation-plan.md)

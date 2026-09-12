@@ -25,6 +25,7 @@ destructive actions require human confirmation.
 | [EDA workflow guideline](design/eda-workflow.md) | Six iterative EDA practices, their scientific-safety boundaries, and current milestone position. | An EDA practice, safety boundary, or project-stage assessment changes. |
 | [OC20 data understanding](design/oc20-data-understanding.md) | Observed OC20 200K source layout, mappings, viewing workflow, and dataset-specific limitations. | A dataset inspection finding or supported OC20 input changes. |
 | [Phase 1 OC20 acceptance](design/oc20-profiler-phase-1-acceptance.md) | Deterministic-profiler acceptance decision, exact bounded-scope oracle, observed result, and retained limits. | Profiler behaviour, acceptance evidence, or its declared scope changes. |
+| [OC20 profiler module reference](design/oc20-profiler-module-reference.md) | Public runtime modules, data-access boundaries, and future deterministic-tool roles. | A public module interface, safety boundary, or approved workflow role changes. |
 | [Technology decisions](design/technology-decisions.md) | Adopted technologies, conditional integrations, and decision records. | A dependency is introduced, deferred, or rejected. |
 | [Literature review](design/literature-review.md) | Reading summary, research gap, and claim-verification notes. | A source is read or cited. |
 | [Evaluation plan](design/evaluation-plan.md) | Evaluation questions, datasets, scenarios, measures, rubric, and reporting rules. | An experiment is planned or revised. |

@@ -21,6 +21,7 @@ The system must make the structure, constraints, and uncertainty of a dataset vi
 | FR-9 | Support replay or rollback for important workflow steps. | Non-destructive output policy and replay/rollback example. |
 | FR-10 | Implement the post-profiler agent workflow in LangGraph, including explicit state, checkpoints, retries, and validation transitions. | A tested graph run from profile to validated report. |
 | FR-11 | Support a final multi-agent orchestration design with explicit sequential and parallel execution rules. | Role contracts, merge rules, and scenarios that verify safe coordination. |
+| FR-12 | Support documented representative subsets of OC20, OC22, OC20-mAds, OC20Dense, and OC20NEB through source-specific adapter contracts. | For each source: a reviewed source-derived subset, declared supported input, preserved semantic invariant, and reproducible acceptance result; synthetic fixtures complement but do not establish source support. |
 
 ## Non-functional requirements
 

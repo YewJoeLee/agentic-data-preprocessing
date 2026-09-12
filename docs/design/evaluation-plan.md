@@ -16,7 +16,7 @@ scientific outcome.
 | Correctness | Are profile facts, inferred relationships, and warnings correct for inspected data? | Golden fixture assertions, manual spot checks, categorised errors. |
 | Leakage prevention | Are related records, groups, windows, or trajectories kept in valid splits? | Adversarial split/group scenarios and caught validation failures. |
 | Reproducibility | Can the same input/configuration reproduce the same profile or output? | Versioned configuration, sampling policy, hashes/diffs, repeated-run comparison. |
-| Cross-type generalisation | Does the profiler surface meaningful differences across OC data variants? | Scenario matrix across OC20 plus feasible contrasting variants. |
+| Cross-type generalisation | Does the prototype surface and preserve meaningful differences across the five declared OC sources? | Source-specific adapter acceptance matrix across documented source-derived representative subsets; reviewed synthetic fixtures test negative or failure cases only. |
 | Runtime | Is inspection practical for a representative local subset? | Timings by step with machine context and input size. |
 | Explanation quality | Can a user trace claims/actions back to evidence? | Rubric: evidence, clarity, uncertainty, risk, next action. |
 
@@ -29,11 +29,45 @@ scientific outcome.
 | Group/split risk | Fixture with related records that could be split independently. | Surface leakage risk or reject invalid handling. | Leakage prevention, validation. |
 | Ordering risk | OC20NEB-like ordered-image fixture. | Preserve and explain sequence/reaction-grouping constraints. | Correctness, safety, explanation quality. |
 | Mapping alignment risk | OC20Dense-like structure/mapping fixture. | Detect or report broken/misaligned mappings. | Correctness, validation. |
-| Task-aware plan | Profile plus a user goal. | Produce evidence-cited plan, assumptions, risk class, preview, and validation steps. | Explanation quality, reproducibility. |
+| Task-aware plan | Profile plus a user goal. | Produce a schema-valid, evidence-cited plan, assumptions, risk class, preview, validation steps, and LLM run record when a model is used. | Explanation quality, reproducibility. |
 | Approved operation | Small safe/allow-listed transformation. | Produce derived output, configuration, provenance, and validation report. | Reproducibility, validation. |
-| Orchestration safety | Multi-agent graph with allowed parallel read-only branches and sequential mutation path. | Merge evidence deterministically; block unapproved/unsafe concurrent actions. | Reliability, correctness, reproducibility. |
+| Orchestration safety | Multi-agent graph with allowed parallel read-only branches and sequential mutation path. | Merge evidence deterministically; block unapproved/unsafe concurrent actions; retain state, retry, approval, and merge evidence. | Reliability, correctness, reproducibility. |
 
-Only add a full dataset family when a small documented subset and a clear scenario justify the cost. Record omitted scenarios and their reason.
+Only add support for a representative subset from a declared dataset family
+when a documented input and clear scenario justify the cost. Record omitted
+scenarios and their reason.
+
+## Planned source coverage and adapter acceptance
+
+Each source becomes supported only after the listed source-specific oracle
+passes on a documented source-derived representative subset. A reviewed
+synthetic fixture that resembles a source's risk is useful evaluation evidence,
+but it is not source-adapter support.
+
+| Source | Current status | Semantic oracle for planned adapter support |
+| --- | --- | --- |
+| OC20 | Bounded S2EF-200K profiler accepted. | Maintain the Phase 1 acceptance oracle and use it as the controlled-workflow baseline. |
+| OC22 | Not supported. | Identify and retain total-energy label evidence; block comparisons or aggregation that present those values as OC20 adsorption energies. |
+| OC20-mAds | Not supported. | Surface variable adsorbate composition and coverage metadata; report absent or inconsistent composition evidence without inventing a match. |
+| OC20Dense | Not supported. | Validate explicit structure, target, group, and mapping alignment; report missing or ambiguous counterparts. |
+| OC20NEB | Not supported. | Validate authoritative reaction IDs and strictly ordered image positions before any reaction-level or transition-state summary. |
+
+Every planned adapter acceptance record must name the source reference, input
+format, sample policy, parser/tool version, preserved invariant, known
+unsupported features, and repeated-run result. The Phase 3 evidence cards and
+Phase 4 timing are maintained in [milestones](../milestones.md).
+
+## User-goal coverage
+
+The goal suite makes the proposal's example requests testable without treating
+unsupported source semantics as known facts.
+
+| User goal | Required evidence and safe outcome |
+| --- | --- |
+| Explain a dataset's files, fields, units, record structure, and possible tasks. | Return discovered evidence and clearly label unknown units or semantics; make no transformation. |
+| Prepare an OC20 subset for model training. | Produce an evidence-cited, previewed plan; execute only approved initial allow-listed operations and preserve source data. |
+| Prepare a sequence dataset for forecasting. | Require explicit group and time/order fields; warn or refuse when they are absent, ambiguous, or unsuitable for leakage checks. |
+| Convert an OC20NEB trajectory to reaction-level records. | Refuse until the OC20NEB adapter validates authoritative reaction groups, image order, and field-specific units; then require preview, approval, and validation. |
 
 ## Baseline evidence status
 

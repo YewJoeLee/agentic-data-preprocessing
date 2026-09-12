@@ -17,6 +17,8 @@ authoritative schedule and phase status.
   evaluation plan.
 - [Phase 1 OC20 acceptance](design/oc20-profiler-phase-1-acceptance.md) —
   bounded-scope acceptance decision, oracle, observed result, and limitations.
+- [OC20 profiler module reference](design/oc20-profiler-module-reference.md)
+  — runtime module lookup, safety boundaries, and future tool roles.
 - [Development log](development-log.md) — weekly progress, decisions,
   experiments, and limitations.
 - [Oral presentation preparation](oral-presentation.md) — presentation
